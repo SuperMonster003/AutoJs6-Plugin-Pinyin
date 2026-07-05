@@ -1,4 +1,5 @@
 plugins {
+    id("org.autojs.build.jvm-convention")
     id("com.android.application")
 }
 
@@ -25,6 +26,7 @@ android {
         aidl = true
         resValues = true
     }
+
 }
 
 dependencies {
