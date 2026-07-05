@@ -74,6 +74,7 @@ junit-jupiter = "5.13.4"
 junit-quickcheck-core = "1.0"
 junit-quickcheck-generators = "1.0"
 kotlin-csv-jvm = "1.10.0"
+kotlinx-coroutines-android = "1.11.0"
 leakcanary = "2.14"
 licensesdialog = "2.2.0"
 material = "1.13.0"
@@ -148,6 +149,7 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 junit-quickcheck-core = { module = "com.pholser:junit-quickcheck-core", version.ref = "junit-quickcheck-core" }
 junit-quickcheck-generators = { module = "com.pholser:junit-quickcheck-generators", version.ref = "junit-quickcheck-generators" }
 kotlin-csv-jvm = { module = "com.github.doyaaaaaken:kotlin-csv-jvm", version.ref = "kotlin-csv-jvm" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 ksp-version-codes-processor = { module = "logic:ksp-version-codes-processor" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 licensesdialog = { module = "de.psdev.licensesdialog:licensesdialog", version.ref = "licensesdialog" }
