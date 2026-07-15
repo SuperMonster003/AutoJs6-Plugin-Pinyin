@@ -1,0 +1,22 @@
+{
+  "changelog_label_hint": "Note",
+  "changelog_label_feature": "Fonctionnalite",
+  "changelog_label_fix": "Correction",
+  "changelog_label_improvement": "Amelioration",
+  "changelog_label_dependency": "Dependance",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/07/15",
+      "feature": [
+        "Ajout du service d'extension Pinyin avec l'ID d'extension `pinyin` et le moteur `pinyin`",
+        "Ajout de la decouverte et de l'appel par l'hote via `org.autojs.plugin.PINYIN`",
+        "Prise en charge de `pinyin.convert(text, options)` avec resultats pinyin imbriques, et composition `compact()` fournie par l'hote AutoJs6",
+        "Prise en charge de `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` et `pinyin.fromPhrase(phrase)`",
+        "Prise en charge des styles pinyin `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` et des modes `NORMAL`/`SURNAME`/`PLACE_NAME`",
+        "Ajout de donnees integrees de caracteres, phrases et segmentation pour la segmentation, les heteronymes, les phrases et les noms de famille",
+        "Ajout de metadonnees de l'extension et d'instructions d'utilisation localisees en espagnol, francais, russe, arabe, japonais, coreen, anglais, chinois simplifie, chinois traditionnel de Hong Kong et chinois traditionnel de Taiwan",
+        "Ajout de sources JSON et de la generation `.python/generate_markdown.py` pour les fichiers Markdown README et CHANGELOG multilingues"
+      ]
+    }
+  }
+}

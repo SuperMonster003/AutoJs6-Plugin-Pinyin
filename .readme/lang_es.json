@@ -1,0 +1,32 @@
+{
+  "$name": "Español",
+  "text_current_lowercase": "actual",
+  "text_plugin_synopsis": "Complemento Pinyin para la conversion fonetica del chino",
+  "h3_languages_with_ascii": "Idiomas (Languages)",
+  "p_languages_all_supported_for_readme": "El README.md actual admite los siguientes idiomas",
+  "h3_introduction": "Introduccion",
+  "p_introduction": "El complemento AutoJs6 Pinyin proporciona conversion a pinyin chino para AutoJs6 con diccionarios incluidos de caracteres, frases y segmentacion. Admite marcas de tono, tonos numericos, pinyin sin tono, iniciales, primeras letras, segmentacion, heteronimos, frases y modo de apellidos.",
+  "h3_functions": "Funciones",
+  "features": [
+    "Proporciona el servicio de complemento `pinyin`, con ID de complemento `pinyin`.",
+    "Admite API de AutoJs6 como `pinyin.convert(text, options)`, `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` y `pinyin.fromPhrase(phrase)`.",
+    "Admite los estilos de pinyin `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER`, ademas de los modos normal y apellido.",
+    "Admite segmentacion basada en Jieba, heteronimos, diccionarios de frases y combinaciones agrupadas de pinyin.",
+    "Los metadatos del complemento, las instrucciones de uso, README y CHANGELOG estan localizados en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan."
+  ],
+  "h3_usage": "Uso",
+  "p_usage_simple_intro": "Tambien hay disponible un metodo de cadena compacta",
+  "h3_options": "Opciones",
+  "p_options_intro": "Los estilos de pinyin comunes incluyen",
+  "p_modes": "Los modos incluyen",
+  "h3_release_history": "Historial De Versiones",
+  "h5_for_more_release_history": "Para mas historial de versiones",
+  "h3_build": "Compilacion",
+  "text_release_build": "Compilacion Release",
+  "p_build_params": "Los parametros de compilacion provienen de `version.properties`; el SDK minimo actual es 24 y el SDK objetivo es 36",
+  "h3_resource_layout": "Estructura De Recursos",
+  "p_resource_layout": "`strings.xml` contiene descripciones localizadas del complemento; `plugin_instruction.md` contiene instrucciones de uso mostradas por el host. README y CHANGELOG se generan desde fuentes JSON mediante `.python/generate_markdown.py`",
+  "h3_links": "Enlaces",
+  "text_link_autojs6_pinyin_docs": "Documentacion AutoJs6 Pinyin",
+  "text_link_autojs6_project": "Proyecto AutoJs6"
+}

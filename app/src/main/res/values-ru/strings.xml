@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugin_description">Плагин Pinyin для преобразования китайского текста в пиньинь</string>
+</resources>

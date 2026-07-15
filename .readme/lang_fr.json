@@ -1,0 +1,32 @@
+{
+  "$name": "Français",
+  "text_current_lowercase": "actuel",
+  "text_plugin_synopsis": "Extension Pinyin pour la conversion phonétique du chinois",
+  "h3_languages_with_ascii": "Langues (Languages)",
+  "p_languages_all_supported_for_readme": "Le README.md actuel prend en charge les langues suivantes",
+  "h3_introduction": "Introduction",
+  "p_introduction": "L'extension AutoJs6 Pinyin fournit a AutoJs6 une conversion en pinyin chinois avec des dictionnaires integres de caracteres, de phrases et de segmentation. Elle prend en charge les marques de ton, les tons numeriques, le pinyin sans ton, les initiales, les premieres lettres, la segmentation, les heteronymes, les phrases et le mode nom de famille.",
+  "h3_functions": "Fonctionnalites",
+  "features": [
+    "Fournit le service d'extension `pinyin`, avec l'ID d'extension `pinyin`.",
+    "Prend en charge les API AutoJs6 telles que `pinyin.convert(text, options)`, `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` et `pinyin.fromPhrase(phrase)`.",
+    "Prend en charge les styles pinyin `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER`, ainsi que les modes normal et nom de famille.",
+    "Prend en charge la segmentation basee sur Jieba, les heteronymes, les dictionnaires de phrases et les combinaisons de resultats pinyin.",
+    "Les metadonnees de l'extension, les instructions d'utilisation, le README et le CHANGELOG sont localises en espagnol/francais/russe/arabe/japonais/coreen/anglais/chinois simplifie/chinois traditionnel de Hong Kong/chinois traditionnel de Taiwan."
+  ],
+  "h3_usage": "Utilisation",
+  "p_usage_simple_intro": "Une methode de chaine compacte est egalement disponible",
+  "h3_options": "Options",
+  "p_options_intro": "Les styles pinyin courants incluent",
+  "p_modes": "Les modes incluent",
+  "h3_release_history": "Historique Des Versions",
+  "h5_for_more_release_history": "Pour plus d'historique des versions",
+  "h3_build": "Compilation",
+  "text_release_build": "Compilation Release",
+  "p_build_params": "Les parametres de compilation proviennent de `version.properties`; le SDK minimum actuel est 24 et le SDK cible est 36",
+  "h3_resource_layout": "Structure Des Ressources",
+  "p_resource_layout": "`strings.xml` contient les descriptions localisees de l'extension; `plugin_instruction.md` contient les instructions d'utilisation affichees par l'hote. Les fichiers README et CHANGELOG sont generes depuis les sources JSON par `.python/generate_markdown.py`",
+  "h3_links": "Liens",
+  "text_link_autojs6_pinyin_docs": "Documentation AutoJs6 Pinyin",
+  "text_link_autojs6_project": "Projet AutoJs6"
+}

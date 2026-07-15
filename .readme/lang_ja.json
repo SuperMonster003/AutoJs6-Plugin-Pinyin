@@ -1,0 +1,32 @@
+{
+  "$name": "日本語",
+  "text_current_lowercase": "現在",
+  "text_plugin_synopsis": "中国語ピンイン変換用の Pinyin プラグイン",
+  "h3_languages_with_ascii": "言語 (Languages)",
+  "p_languages_all_supported_for_readme": "現在の README.md は次の言語に対応しています",
+  "h3_introduction": "概要",
+  "p_introduction": "AutoJs6 Pinyin プラグインは, パッケージ済みの文字, フレーズ, 分かち書き辞書を使い, AutoJs6 に中国語ピンイン変換機能を提供します. 声調記号, 数字声調, 声調なしピンイン, 声母, 先頭文字, 分かち書き, 多音字, フレーズ, 姓モードに対応します.",
+  "h3_functions": "機能",
+  "features": [
+    "`pinyin` プラグインサービスを提供し, プラグイン ID は `pinyin` です.",
+    "`pinyin.convert(text, options)`, `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)`, `pinyin.fromPhrase(phrase)` などの AutoJs6 API に対応します.",
+    "`NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` のピンインスタイルと, 通常モード, 姓モードに対応します.",
+    "Jieba ベースの分かち書き, 多音字, フレーズ辞書, ピンイン結果の組み合わせに対応します.",
+    "プラグイン情報, 使用説明, README, CHANGELOG はスペイン語/フランス語/ロシア語/アラビア語/日本語/韓国語/英語/簡体字中国語/香港繁体字/台湾繁体字に対応します."
+  ],
+  "h3_usage": "使用例",
+  "p_usage_simple_intro": "連結文字列用の簡易メソッドも使用できます",
+  "h3_options": "オプション",
+  "p_options_intro": "よく使うピンインスタイルは次のとおりです",
+  "p_modes": "モードは次のとおりです",
+  "h3_release_history": "リリース履歴",
+  "h5_for_more_release_history": "その他のリリース履歴",
+  "h3_build": "ビルド",
+  "text_release_build": "Release ビルド",
+  "p_build_params": "ビルドパラメータは `version.properties` から取得されます. 現在の最小 SDK は 24, ターゲット SDK は 36 です",
+  "h3_resource_layout": "リソース構成",
+  "p_resource_layout": "`strings.xml` はローカライズされたプラグイン説明を提供します; `plugin_instruction.md` はホストに表示される使用説明を提供します. README と CHANGELOG は `.python/generate_markdown.py` により JSON ソースから生成されます",
+  "h3_links": "関連リンク",
+  "text_link_autojs6_pinyin_docs": "AutoJs6 Pinyin ドキュメント",
+  "text_link_autojs6_project": "AutoJs6 プロジェクト"
+}

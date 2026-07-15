@@ -1,0 +1,32 @@
+{
+  "$name": "Русский",
+  "text_current_lowercase": "текущий",
+  "text_plugin_synopsis": "Плагин Pinyin для преобразования китайского текста в пиньинь",
+  "h3_languages_with_ascii": "Языки (Languages)",
+  "p_languages_all_supported_for_readme": "Текущий README.md поддерживает следующие языки",
+  "h3_introduction": "Введение",
+  "p_introduction": "Плагин AutoJs6 Pinyin предоставляет AutoJs6 преобразование китайского текста в пиньинь с упакованными словарями символов, фраз и сегментации. Поддерживаются тоновые знаки, числовые тоны, пиньинь без тона, инициали, первые буквы, сегментация, многозвучные символы, фразы и режим фамилий.",
+  "h3_functions": "Возможности",
+  "features": [
+    "Предоставляет службу плагина `pinyin` с ID плагина `pinyin`.",
+    "Поддерживает API AutoJs6, такие как `pinyin.convert(text, options)`, `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` и `pinyin.fromPhrase(phrase)`.",
+    "Поддерживает стили пиньиня `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER`, а также обычный режим и режим фамилий.",
+    "Поддерживает сегментацию на базе Jieba, многозвучные символы, словари фраз и групповые комбинации пиньиня.",
+    "Метаданные плагина, инструкции по использованию, README и CHANGELOG локализованы для испанского/французского/русского/арабского/японского/корейского/английского/упрощенного китайского/традиционного китайского Hong Kong/традиционного китайского Taiwan."
+  ],
+  "h3_usage": "Использование",
+  "p_usage_simple_intro": "Также доступен метод для компактной строки",
+  "h3_options": "Параметры",
+  "p_options_intro": "Распространенные стили пиньиня",
+  "p_modes": "Режимы",
+  "h3_release_history": "История Выпусков",
+  "h5_for_more_release_history": "Дополнительная история выпусков",
+  "h3_build": "Сборка",
+  "text_release_build": "Release сборка",
+  "p_build_params": "Параметры сборки берутся из `version.properties`; текущий минимальный SDK равен 24, целевой SDK равен 36",
+  "h3_resource_layout": "Структура Ресурсов",
+  "p_resource_layout": "`strings.xml` содержит локализованные описания плагина; `plugin_instruction.md` содержит инструкции по использованию, отображаемые хостом. README и CHANGELOG создаются из JSON исходников с помощью `.python/generate_markdown.py`",
+  "h3_links": "Ссылки",
+  "text_link_autojs6_pinyin_docs": "Документация AutoJs6 Pinyin",
+  "text_link_autojs6_project": "Проект AutoJs6"
+}

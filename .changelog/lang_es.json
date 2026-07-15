@@ -1,0 +1,22 @@
+{
+  "changelog_label_hint": "Nota",
+  "changelog_label_feature": "Nuevo",
+  "changelog_label_fix": "Correccion",
+  "changelog_label_improvement": "Mejora",
+  "changelog_label_dependency": "Dependencia",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/07/15",
+      "feature": [
+        "Se agrego el servicio del complemento Pinyin con ID de complemento `pinyin` y motor `pinyin`",
+        "Se agrego descubrimiento e invocacion desde el host mediante `org.autojs.plugin.PINYIN`",
+        "Se admitio `pinyin.convert(text, options)` con resultados de pinyin anidados, y composicion `compact()` proporcionada por el host AutoJs6",
+        "Se admitio `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` y `pinyin.fromPhrase(phrase)`",
+        "Se admitieron los estilos de pinyin `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` y los modos `NORMAL`/`SURNAME`/`PLACE_NAME`",
+        "Se agregaron datos incluidos de caracteres, frases y segmentacion para segmentacion, heteronimos, frases y manejo de apellidos",
+        "Se agregaron metadatos del complemento e instrucciones de uso localizadas en espanol, frances, ruso, arabe, japones, coreano, ingles, chino simplificado, chino tradicional de Hong Kong y chino tradicional de Taiwan",
+        "Se agregaron fuentes JSON y generacion `.python/generate_markdown.py` para archivos Markdown README y CHANGELOG multilingues"
+      ]
+    }
+  }
+}

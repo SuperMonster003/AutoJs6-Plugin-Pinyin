@@ -1,29 +1,36 @@
 import java.util.Properties
 
 plugins {
+    id("org.autojs.build.utils")
+    id("org.autojs.build.versions")
+    id("org.autojs.build.signs")
     id("org.autojs.build.jvm-convention")
     id("com.android.application")
 }
 
+val globalApplicationId = "io.github.supermonster003.autojs6.plugin.pinyin"
+
 var isSignsValid = false
 
 android {
-    namespace = "io.github.supermonster003.autojs6.plugin.pinyin"
-    compileSdk = 36
+    namespace = globalApplicationId
+    compileSdk = versions.sdkVersionCompile
 
     defaultConfig {
-        applicationId = namespace
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        applicationId = globalApplicationId
 
-        resValue("string", "app_name", "Pinyin Plugin")
+        minSdk = versions.sdkVersionMin
+        targetSdk = versions.sdkVersionTarget
+
+        versionCode = versions.appVersionCode
+        versionName = versions.appVersionName
+
+        resValue("string", "app_name", "Pinyin")
+        resValue("string", "plugin_author", "SuperMonster003")
         resValue("string", "plugin_id", "pinyin")
         resValue("string", "plugin_engine", "pinyin")
         resValue("string", "plugin_variant", "default")
-        resValue("string", "plugin_author", "SuperMonster003")
-        resValue("string", "plugin_version_date", "Jul 5, 2026")
+        resValue("string", "plugin_version_date", utils.getDateString("MMM d, yyyy", "GMT+08:00"))
     }
 
     signingConfigs {
@@ -73,7 +80,37 @@ android {
 }
 
 dependencies {
-    implementation(files("../../AutoJs6/plugin-api/common-plugin-api/build/outputs/aar/common-plugin-api-debug.aar"))
-    implementation(files("../../AutoJs6/plugin-api/pinyin-api/build/outputs/aar/pinyin-api-debug.aar"))
+    implementation(files("$rootDir/libs/common-plugin-api.aar"))
+    implementation(files("$rootDir/libs/pinyin-api.aar"))
     implementation(libs.kotlinx.coroutines.android)
+}
+
+tasks {
+    withType(JavaCompile::class.java) {
+        options.encoding = "UTF-8"
+    }
+
+    register<Copy>("appendDigestToReleasedFiles") {
+        description = "Appends CRC32 digest to released APK files"
+
+        val src = "release"
+        val dst = "${src}s"
+        val ext = utils.FILE_EXTENSION_APK
+
+        if (!file(src).isDirectory) {
+            return@register
+        }
+
+        from(src); into(dst); include("*.$ext")
+
+        rename { name ->
+            val abi = name.replace(Regex("^app-(.+?)-$src(\\.$ext)$"), "$1")
+            val releasedFileNamePrefix = "${rootProject.name}-v${versions.appVersionName}-$abi"
+            utils.digestCRC32(file("${src}/$name")).let { digest ->
+                "$releasedFileNamePrefix-$digest.$ext"
+            }
+        }
+
+        doLast { println("Destination: ${file(dst)}") }
+    }
 }

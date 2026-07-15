@@ -1,0 +1,7 @@
+{
+  "repo_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin",
+  "docs_pinyin_url": "https://docs.autojs6.com/#/pinyin",
+  "autojs6_url": "https://github.com/SuperMonster003/AutoJs6",
+  "pinyin_styles": "NORMAL, TONE, TONE2, TO3NE,\nINITIALS, FIRST_LETTER",
+  "pinyin_modes": "NORMAL, SURNAME, PLACE_NAME, PLACENAME"
+}

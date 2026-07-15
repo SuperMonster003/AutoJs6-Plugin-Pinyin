@@ -1,0 +1,32 @@
+{
+  "$name": "繁體中文 (台灣)",
+  "text_current_lowercase": "目前",
+  "text_plugin_synopsis": "用於漢語拼音轉換的 Pinyin 外掛",
+  "h3_languages_with_ascii": "語言 (Languages)",
+  "p_languages_all_supported_for_readme": "目前 README.md 支援以下語言",
+  "h3_introduction": "簡介",
+  "p_introduction": "AutoJs6 Pinyin 外掛為 AutoJs6 提供基於內建漢字, 詞組和分詞字典的漢語拼音轉換能力, 支援聲調符號, 數字聲調, 無聲調, 聲母, 首字母, 分詞, 多音字, 詞組和姓氏模式.",
+  "h3_functions": "功能",
+  "features": [
+    "提供 `pinyin` 外掛服務, 外掛 ID 為 `pinyin`.",
+    "支援 AutoJs6 中的 `pinyin.convert(text, options)`, `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` 和 `pinyin.fromPhrase(phrase)`.",
+    "支援 `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` 拼音風格, 支援普通模式和姓氏模式.",
+    "支援基於 Jieba 的分詞, 多音字, 詞組字典和拼音結果組合.",
+    "外掛資訊, 使用說明, README 與 CHANGELOG 均支援西班牙語/法語/俄語/阿拉伯語/日語/韓語/英語/簡體中文/香港繁體/台灣繁體."
+  ],
+  "h3_usage": "使用範例",
+  "p_usage_simple_intro": "也可以使用緊湊字串方法",
+  "h3_options": "選項",
+  "p_options_intro": "常用拼音風格包括",
+  "p_modes": "模式包括",
+  "h3_release_history": "發行歷史",
+  "h5_for_more_release_history": "更多發行歷史可參閱",
+  "h3_build": "建置",
+  "text_release_build": "Release 建置",
+  "p_build_params": "建置參數來自 `version.properties`, 目前最低 SDK 為 24, 目標 SDK 為 36",
+  "h3_resource_layout": "資源結構",
+  "p_resource_layout": "`strings.xml` 提供外掛描述本地化; `plugin_instruction.md` 提供宿主端顯示的外掛使用說明. README 與 CHANGELOG 由 `.python/generate_markdown.py` 根據 JSON 來源檔生成",
+  "h3_links": "相關連結",
+  "text_link_autojs6_pinyin_docs": "AutoJs6 Pinyin 文件",
+  "text_link_autojs6_project": "AutoJs6 專案"
+}

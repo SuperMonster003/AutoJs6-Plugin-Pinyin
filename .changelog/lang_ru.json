@@ -1,0 +1,22 @@
+{
+  "changelog_label_hint": "Подсказка",
+  "changelog_label_feature": "Новое",
+  "changelog_label_fix": "Исправление",
+  "changelog_label_improvement": "Улучшение",
+  "changelog_label_dependency": "Зависимость",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/07/15",
+      "feature": [
+        "Добавлена служба плагина Pinyin с ID плагина `pinyin` и движком `pinyin`",
+        "Добавлено обнаружение и вызов хостом через `org.autojs.plugin.PINYIN`",
+        "Поддержан `pinyin.convert(text, options)` с вложенными результатами пиньиня, а композиция `compact()` предоставляется хостом AutoJs6",
+        "Поддержаны `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` и `pinyin.fromPhrase(phrase)`",
+        "Поддержаны стили пиньиня `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` и режимы `NORMAL`/`SURNAME`/`PLACE_NAME`",
+        "Добавлены упакованные данные символов, фраз и сегментации для сегментации, многозвучных символов, фраз и обработки фамилий",
+        "Добавлены локализованные метаданные плагина и инструкции по использованию для испанского, французского, русского, арабского, японского, корейского, английского, упрощенного китайского, традиционного китайского Hong Kong и традиционного китайского Taiwan",
+        "Добавлены JSON исходники и генерация `.python/generate_markdown.py` для многоязычных Markdown файлов README и CHANGELOG"
+      ]
+    }
+  }
+}
