@@ -105,6 +105,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | Включает сегментацию Jieba и словарь словосочетаний для устранения неоднозначности чтений |
 | `heteronym` | `false` | Возвращать все варианты чтения каждого иероглифа, а не только первый |
 | `group` | `false` | Объединять кандидатов пиньиня по выделенным словам (вместе с `segment`) |
+| `customDictionary` | `{}` | Переопределения чтений иероглифов только для текущего вызова в формате `{ фраза: [[кандидаты с тонами], ...] }`; выбирается самое длинное совпадение, данные не сохраняются и требуют совместимых AutoJs6 и плагина |
 
 Режимы также принимают константы (например `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` использует самое длинное совпадение в небольшом корпусе с ручной проверкой; для отсутствующего текста применяется `NORMAL`. Это не полный государственный каталог; см. [корпус и источники](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md).
 
@@ -156,6 +160,8 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - `fromCodePoint` запрашивает исходную словарную запись чтений одиночной кодовой точки (варианты с тонами через запятую) и возвращает `null`, если она не покрыта.
 - `fromPhrase` запрашивает словарь словосочетаний и возвращает варианты чтения каждой позиции словосочетания; если оно не покрыто, возвращается пустой массив.
 - Все методы возвращают результат синхронно; самый первый вызов инициализирует встроенные словари и может занять чуть больше времени.
+
+#### Node.js
+
+В среде Node.js вызывайте тот же provider через публичный facade `autojs6:bridge` и явно объявляйте capability `pinyin`:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ console.log(pinyin.simple("拼音"));
 #### Почему APK занимает около 6 MB?
 
 APK содержит четыре набора данных: словарь одиночных иероглифов, словарь словосочетаний, лексикон сегментации и модель HMM; это цена полной автономности и более высокой точности чтений. Если размер важнее, рассмотрите родственный плагин [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) размером около 0.3 MB.
+
+#### Почему отклоняется `customDictionary` или вызов Pinyin из Node.js?
+
+Эти маршруты требуют совместимых сборок AutoJs6 и плагина Pinyin. Вызовы Node.js должны объявлять `permissions: ["pinyin"]`. Пользовательский словарь действует только для одного вызова и должен соблюдать документированные пределы числа записей, кандидатов, комбинаций и 64 KiB.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-`PinyinPluginService` отвечает на action `org.autojs.plugin.PINYIN` (category `pinyin`) и предоставляет 5 методов через AIDL интерфейс `IPinyinPlugin`; `convert` и `fromPhrase` возвращают двумерные массивы как JSON строки, а параметры передаются в `Bundle` (ключи: `mode` / `style` / `segment` / `heteronym` / `group`). Сервис и `WakeActivity` защищены разрешением `org.autojs.permission.PLUGIN`, поэтому сторонние приложения не могут вызывать их напрямую.
+`PinyinPluginService` отвечает на action `org.autojs.plugin.PINYIN` (category `pinyin`) и предоставляет 5 методов через AIDL интерфейс `IPinyinPlugin`; `convert` и `fromPhrase` возвращают двумерные массивы как JSON строки, а параметры передаются в `Bundle` (ключи: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). Пользовательские словари требуют capability `pinyin.customDictionary.v1`. Сервис и `WakeActivity` защищены разрешением `org.autojs.permission.PLUGIN`, поэтому сторонние приложения не могут вызывать их напрямую.
 
 ******
 

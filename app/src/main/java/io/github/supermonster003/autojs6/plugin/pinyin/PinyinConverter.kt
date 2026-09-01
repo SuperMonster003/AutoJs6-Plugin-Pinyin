@@ -29,18 +29,21 @@ internal data class PinyinOptions(
     val segment: Boolean = false,
     val heteronym: Boolean = false,
     val group: Boolean = false,
+    val customDictionary: Map<String, List<List<String>>> = emptyMap(),
 ) {
     companion object {
         fun from(bundle: Bundle?): PinyinOptions {
             return fromValues(
                 intValue = { key, defaultValue -> bundle?.getInt(key, defaultValue) ?: defaultValue },
                 booleanValue = { key, defaultValue -> bundle?.getBoolean(key, defaultValue) ?: defaultValue },
+                stringValue = { key -> bundle?.getString(key) },
             )
         }
 
         internal fun fromValues(
             intValue: (key: String, defaultValue: Int) -> Int,
             booleanValue: (key: String, defaultValue: Boolean) -> Boolean,
+            stringValue: (key: String) -> String? = { null },
         ): PinyinOptions {
             return PinyinOptions(
                 mode = intValue(PinyinOptionKeys.MODE, PinyinMode.NORMAL.value),
@@ -48,6 +51,7 @@ internal data class PinyinOptions(
                 segment = booleanValue(PinyinOptionKeys.SEGMENT, false),
                 heteronym = booleanValue(PinyinOptionKeys.HETERONYM, false),
                 group = booleanValue(PinyinOptionKeys.GROUP, false),
+                customDictionary = PinyinCustomDictionary.parse(stringValue(PinyinOptionKeys.CUSTOM_DICTIONARY_JSON)),
             )
         }
     }
@@ -85,9 +89,98 @@ internal class PinyinConverter(
 
     fun convert(hans: String, options: PinyinOptions = PinyinOptions()): List<List<String>> = when {
         hans.isEmpty() -> emptyList()
+        options.customDictionary.isNotEmpty() -> customDictionaryPinyin(hans, options)
+        else -> builtInPinyin(hans, options)
+    }
+
+    private fun builtInPinyin(hans: String, options: PinyinOptions): List<List<String>> = when {
         options.mode == PinyinMode.SURNAME.value -> surnamePinyin(hans, options)
         options.mode == PinyinMode.PLACE_NAME.value -> placeNamePinyin(hans, options)
         else -> normalPinyin(hans, options)
+    }
+
+    private fun customDictionaryPinyin(hans: String, options: PinyinOptions): List<List<String>> {
+        val customDictionary = CustomDictionaryTrie(options.customDictionary)
+        val fallbackOptions = options.copy(customDictionary = emptyMap())
+        val result = mutableListOf<List<String>>()
+        var unmatchedStart = 0
+        var index = 0
+        while (index < hans.length) {
+            val firstCodePoint = hans.codePointAt(index)
+            val matched = customDictionary.longestMatch(hans, index)
+            if (matched == null) {
+                index += Character.charCount(firstCodePoint)
+                continue
+            }
+
+            if (unmatchedStart < index) {
+                result.addAll(builtInPinyin(hans.substring(unmatchedStart, index), fallbackOptions))
+            }
+            val fixedRows = matched.rows.map { candidates ->
+                val selected = if (options.heteronym) candidates else candidates.take(1)
+                selected.map { candidate -> toFixed(candidate, options.style) }.distinct()
+            }
+            if (options.group) {
+                result.add(groupPhrases(fixedRows))
+            } else {
+                result.addAll(fixedRows)
+            }
+            index = matched.endIndex
+            unmatchedStart = index
+        }
+        if (unmatchedStart < hans.length) {
+            result.addAll(builtInPinyin(hans.substring(unmatchedStart), fallbackOptions))
+        }
+        return result
+    }
+
+    private class CustomDictionaryTrie(dictionary: Map<String, List<List<String>>>) {
+
+        private val root = BuilderNode().apply {
+            dictionary.forEach { (phrase, rows) ->
+                var node = this
+                var index = 0
+                while (index < phrase.length) {
+                    val codePoint = phrase.codePointAt(index)
+                    node = node.children.getOrPut(codePoint, ::BuilderNode)
+                    index += Character.charCount(codePoint)
+                }
+                node.rows = rows
+            }
+        }.freeze()
+
+        fun longestMatch(text: String, startIndex: Int): Match? {
+            var node = root
+            var index = startIndex
+            var best: Match? = null
+            while (index < text.length) {
+                val codePoint = text.codePointAt(index)
+                node = node.children[codePoint] ?: break
+                index += Character.charCount(codePoint)
+                node.rows?.let { best = Match(index, it) }
+            }
+            return best
+        }
+
+        private class BuilderNode {
+            val children = mutableMapOf<Int, BuilderNode>()
+            var rows: List<List<String>>? = null
+
+            fun freeze(): Node = Node(
+                children = children.toSortedMap().mapValues { (_, child) -> child.freeze() },
+                rows = rows?.map { candidates -> candidates.toList() }?.toList(),
+            )
+        }
+
+        private data class Node(
+            val children: Map<Int, Node>,
+            val rows: List<List<String>>?,
+        )
+
+        data class Match(
+            val endIndex: Int,
+            val rows: List<List<String>>,
+        )
     }
 
     private fun normalPinyin(hans: String, options: PinyinOptions): List<List<String>> {
@@ -238,7 +331,9 @@ internal class PinyinConverter(
             PHONETIC_SYMBOL[match.groupValues[1]]?.replace(RE_TONE2, "$1") ?: match.value
         }
         PinyinStyle.INITIALS.value -> initials(pinyin)
-        PinyinStyle.FIRST_LETTER.value -> pinyin.first().toString()
+        PinyinStyle.FIRST_LETTER.value -> pinyin.first().toString().let { firstLetter ->
+            PHONETIC_SYMBOL[firstLetter]?.first()?.toString() ?: firstLetter
+        }
         PinyinStyle.TONE.value -> pinyin
         PinyinStyle.TONE2.value -> {
             var tone = ""
@@ -305,7 +400,10 @@ internal class PinyinConverter(
             "g", "k", "h", "j", "q", "x",
             "zh", "ch", "sh", "r", "z", "c", "s",
         )
-        val PHONETIC_SYMBOL = Dict.PHONETIC_SYMBOL
+        val PHONETIC_SYMBOL = Dict.PHONETIC_SYMBOL + mapOf(
+            "ḿ" to "m2",
+            "ǹ" to "n4",
+        )
         val RE_PHONETIC_SYMBOL = Pattern.compile("([${PHONETIC_SYMBOL.keys.joinToString("")}])").toRegex()
         val RE_TONE2 = Regex("([aeoiuvnm])([0-4])$")
     }

@@ -86,6 +86,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -122,6 +125,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | {{ td_option_segment }} |
 | `heteronym` | `false` | {{ td_option_heteronym }} |
 | `group` | `false` | {{ td_option_group }} |
+| `customDictionary` | `{}` | {{ td_option_custom_dictionary }} |
 
 {{ p_options_note }}
 
@@ -137,12 +141,32 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
 ```
 
 {{ placeholder_api_points }}
+
+#### Node.js
+
+{{ p_node_api_note }}:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 

@@ -105,6 +105,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | Jieba 単語分割を有効化し, フレーズ辞書で多音字の曖昧さを解消 |
 | `heteronym` | `false` | 第一候補だけでなく各文字の全読み候補を返す |
 | `group` | `false` | 分割で得たフレーズ単位にピンイン候補を結合 (`segment` と併用) |
+| `customDictionary` | `{}` | 現在の呼び出しだけに適用する漢字読みの上書きです. 形式は `{ 語句: [[声調付き候補], ...] }` で最長一致が優先され, 永続化されません. 対応する AutoJs6 ホストとプラグインが必要です |
 
 モードには定数 (例: `pinyin.MODE_PLACE_NAME`) も指定できます. `PLACE_NAME` は小規模な手動確認済みコーパスを最長一致で検索し, 未収録のテキストは `NORMAL` にフォールバックします. 全国地名の完全な台帳ではありません; [コーパスと出典](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md) を参照してください.
 
@@ -156,6 +160,8 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - `fromCodePoint` は単一コードポイントの辞書上の元の読みレコード (カンマ区切りの声調付き候補) を照会し, 未収録の場合は `null` を返します.
 - `fromPhrase` はフレーズ辞書を照会し, そのフレーズの各文字スロットの読み候補を返します; 未収録の場合は空配列を返します.
 - すべてのメソッドは同期的に返ります; 初回呼び出しでは内蔵辞書の初期化が必要なため, わずかに時間がかかることがあります.
+
+#### Node.js
+
+Node.js ランタイムでは公開 `autojs6:bridge` facade から同じ provider を呼び出し, `pinyin` capability を明示的に宣言します:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ AutoJs6 の内部ビルドが 3923 以上であること, そしてプラグイ�
 #### インストールパッケージが約 6 MB あるのはなぜですか?
 
 インストールパッケージには単漢字辞書, フレーズ辞書, 単語分割用の語彙, HMM モデルの 4 つのデータを内蔵しており, その分完全オフラインとより高い読み付与の精度を実現しています. サイズを重視する場合は, 約 0.3 MB の姉妹プラグイン [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) をご検討ください.
+
+#### `customDictionary` または Node.js のピンイン呼び出しが拒否されるのはなぜですか?
+
+これらの経路には対応する AutoJs6 と Pinyin プラグインが必要です. Node.js 呼び出しでは `permissions: ["pinyin"]` を宣言してください. カスタム辞書は 1 回の呼び出しだけに適用され, 文書化されたエントリ数, 候補数, 組み合わせ数, 64 KiB の上限を守る必要があります.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-`PinyinPluginService` は `org.autojs.plugin.PINYIN` action (category `pinyin`) に応答し, AIDL インターフェース `IPinyinPlugin` を通じて 5 つのメソッドを公開します; `convert` と `fromPhrase` は 2 次元配列を JSON 文字列で返し, オプションは `Bundle` で渡されます (キー: `mode` / `style` / `segment` / `heteronym` / `group`). サービスと `WakeActivity` はいずれも `org.autojs.permission.PLUGIN` 権限で保護され, サードパーティアプリから直接呼び出せません.
+`PinyinPluginService` は `org.autojs.plugin.PINYIN` action (category `pinyin`) に応答し, AIDL インターフェース `IPinyinPlugin` を通じて 5 つのメソッドを公開します; `convert` と `fromPhrase` は 2 次元配列を JSON 文字列で返し, オプションは `Bundle` で渡されます (キー: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). カスタム辞書には `pinyin.customDictionary.v1` capability が必要です. サービスと `WakeActivity` はいずれも `org.autojs.permission.PLUGIN` 権限で保護され, サードパーティアプリから直接呼び出せません.
 
 ******
 

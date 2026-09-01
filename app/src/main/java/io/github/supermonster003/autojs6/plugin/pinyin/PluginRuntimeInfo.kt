@@ -5,6 +5,7 @@ import android.os.Build
 import org.autojs.plugin.common.api.PluginCapabilityKeys
 import org.autojs.plugin.common.api.PluginInfo
 import org.autojs.plugin.pinyin.api.PinyinPluginIds
+import org.autojs.plugin.pinyin.api.PinyinPluginCapabilityKeys
 
 internal const val REQUIRED_HOST_VERSION = 3923
 internal const val PLUGIN_INSTRUCTION_REFERENCE = "@raw/plugin_instruction"
@@ -77,6 +78,7 @@ internal fun Context.pluginInfo(name: String, description: String): PluginInfo {
         supportedAbis = fields.supportedAbis.toTypedArray()
         capabilities = android.os.Bundle().apply {
             putInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION, fields.requiredHostVersion)
+            putBoolean(PinyinPluginCapabilityKeys.CUSTOM_DICTIONARY_V1, true)
         }
     }
 }

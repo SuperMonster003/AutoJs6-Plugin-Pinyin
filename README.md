@@ -105,6 +105,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | 启用 Jieba 分词, 借助词组词典消歧多音字 |
 | `heteronym` | `false` | 返回每个字的全部候选读音, 而非仅首选读音 |
 | `group` | `false` | 按分词得到的词组合并拼音候选 (需配合 `segment`) |
+| `customDictionary` | `{}` | 当前调用的汉字读音覆盖, 格式为 `{ 词: [[带调候选], ...] }`; 最长匹配优先且不持久化, 需兼容的 AutoJs6 宿主与插件 |
 
 模式也可传常量 (如 `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` 对小规模人工复核语料执行最长匹配, 未收录文本回退 `NORMAL`; 它不是全国标准地名全量库, 覆盖范围与出处参见 [语料及来源](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md).
 
@@ -156,6 +160,8 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - `fromCodePoint` 查询单字码点在字典中的原始读音记录 (逗号分隔的带调候选), 未收录时返回 `null`.
 - `fromPhrase` 查询词组词典, 返回该词组每个字位的候选读音; 未收录时返回空数组.
 - 全部方法同步返回; 首次调用需初始化内置字典, 可能稍有延迟.
+
+#### Node.js
+
+在 Node.js 运行时中, 通过公开 `autojs6:bridge` facade 调用同一 provider, 并显式声明 `pinyin` capability:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ console.log(pinyin.simple("拼音"));
 #### 安装包为什么有约 6 MB?
 
 安装包内置单字字典, 词组字典, 分词词库与 HMM 模型四份数据, 以此换取完全离线与更高的注音准确率. 若更在意体积, 可考虑约 0.3 MB 的姊妹插件 [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j).
+
+#### 为什么 `customDictionary` 或 Node.js 拼音调用被拒绝?
+
+这些路由要求兼容的 AutoJs6 与 Pinyin 插件版本. Node.js 调用必须声明 `permissions: ["pinyin"]`. 自定义词典仅对当前调用生效, 且必须满足文档中的条目数, 候选数, 组合数与 64 KiB 限制.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-`PinyinPluginService` 响应 `org.autojs.plugin.PINYIN` action (category `pinyin`), 通过 AIDL 接口 `IPinyinPlugin` 暴露 5 个方法; `convert` 与 `fromPhrase` 以 JSON 字符串返回二维数组, 选项经 `Bundle` 传递 (键: `mode` / `style` / `segment` / `heteronym` / `group`). 服务与 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 权限保护, 第三方应用无法直接调用.
+`PinyinPluginService` 响应 `org.autojs.plugin.PINYIN` action (category `pinyin`), 通过 AIDL 接口 `IPinyinPlugin` 暴露 5 个方法; `convert` 与 `fromPhrase` 以 JSON 字符串返回二维数组, 选项经 `Bundle` 传递 (键: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). 自定义词典要求 `pinyin.customDictionary.v1` capability. 服务与 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 权限保护, 第三方应用无法直接调用.
 
 ******
 

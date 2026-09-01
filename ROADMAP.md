@@ -17,7 +17,7 @@
 | M0 基线插件 | 已完成 | 拼音转换服务, 分词与多音字能力, 多语言资源 | 插件/发布 |
 | M1 文档与发布体验 | 已完成 | 用户导向文档, 文档自动生成与校验, v1.0.1 | 发布 |
 | M2 工程化与持续集成 | 已完成 | 单元/仪器测试, 构建与文档 CI, 发布物料脚本化 | 测试/CI/发布 |
-| M3 转换能力增强 | 进行中 | 精选语料驱动的 PLACE_NAME 地名模式, 分词器复用, 自定义词典评估, 宿主先行项 | API/插件/宿主 |
+| M3 转换能力增强 | 已完成 | PLACE_NAME 地名模式, 分词器复用, per-call 自定义词典, compare/compact 与 Node.js 路由 | API/插件/宿主 |
 | M4 词典与数据演进 | 已完成 | 词典上游锁定与再生成门禁, 多音字质量基线, full/lite 体积决策 | 依赖/插件/发布 |
 
 依赖顺序:
@@ -60,16 +60,16 @@ M0 ──> M1 ──> M2 ──> M3 (宿主先行条目需 AutoJs6 先行)
 
 验收条件: 主分支每次提交自动完成构建, 单元测试与文档校验; 发布产物由脚本生成且哈希可追溯. (已满足)
 
-## M3: 转换能力增强 (进行中)
+## M3: 转换能力增强 (2026-09-01, 已完成)
 
 - [x] (插件/测试) PLACE_NAME 地名模式落地 (2026-09-01): `data/place-names.json` 首批收录 15 个从政府网站逐条复核、与普通逐字首选读音存在差异的地名 (如 蚌埠 bèng bù, 六安 lù ān, 铅山 yán shān), 由 `scripts/dictionaries/generate_place_names.py` 校验并生成运行时映射与 `docs/dictionaries/place-names.md`; 转换按最长地名匹配, 未命中片段回退 NORMAL, SURNAME / PLACE_NAME 为互斥模式. JVM 差分/最长匹配/格式/回退测试与真实 Binder instrumentation 用例固定行为; CI 阻止语料生成产物漂移. 该语料明确为精选集而非全国地名全量库.
 - [x] (插件/测试) 分词器实例复用 (2026-09-01): 服务通过 `ReusablePinyinSegmenter` 在首次 segment 调用时构建并在服务生命周期复用同一 `JiebaSegmenter`; `PinyinSegmenterReuseTest` 以 64 个并发调用证明委托仅初始化一次. 代码审计同时修正原规划的假设: `WordDictionary` / `FinalSeg` 原本已是进程单例, 旧实现每次只新建轻量包装对象而非重复装载词典; API 36 AVD 的同输入前后冷/热/PSS/堆数据与不夸大性能收益的结论记录于 `docs/benchmarks/segmenter-reuse-2026-09-01.md`.
 - [x] (API/宿主/插件) 自定义用户词典协议评估 (2026-09-01): `docs/design/custom-dictionary-evaluation.md` 对照现有 AIDL / `PinyinOptionKeys` / 宿主 Bundle 转发路径, 选定小型 per-call JSON 方案 (64 KiB, 1,024 条, 不持久化), 明确最长匹配、优先级、生命周期、双端校验、能力协商与旧版回退; 大型词典预留 ParcelFileDescriptor/session v2, 不把 Binder 约 1 MB 共享缓冲区当可用配额.
-- [ ] (宿主先行/契约升级) 自定义用户词典实现: 先在共享 `pinyin-api` 增加 option/capability key, 再由宿主完成 JavaScript 对象规范化与能力感知转发, 插件实现不可变 per-call trie; 覆盖新旧宿主/插件组合与恶意/边界输入后方可发布. 当前插件不单方面暴露半成品能力.
-- [ ] (宿主先行) 宿主顶层 `pinyin.compare` 与 `pinyin.compact` 完善: 宿主当前顶层入口为返回空串的占位实现 (仅 convert 结果上绑定的 `compact()` 可用), 插件侧数据已可支撑; 待宿主补齐路由后同步更新文档与 FAQ.
-- [ ] (宿主先行) Node.js 运行时支持: 宿主侧 `pinyin` 目前为 Rhino 专属; 待宿主完成调用路由与资源边界设计后复用同一插件能力, 并更新 FAQ.
+- [x] (API/宿主/插件/测试) 自定义用户词典实现 (2026-09-01): 共享 `pinyin-api` 新增 `custom_dictionary_json` option key, `pinyin.customDictionary.v1` capability 与双端共用的限制契约; Rhino/Node 宿主把 `customDictionary` 对象规范化为键排序的 JSON, 在 Binder 前校验, 并只向声明能力的插件转发. 插件再次 fail-closed 校验并为当前调用构建不可变 Unicode code point trie, 以最长匹配覆盖 `SURNAME` / `PLACE_NAME` / 内置词组和单字, 调用结束即释放且不污染 Jieba 单例. v1 限制为 UTF-8 64 KiB, 1,024 条, key 1-32 个汉字 code point, 每字位 1-8 个候选, 单音节最多 16 个 code point, 每条最多 256 种候选组合; 旧宿主不会发送新键, 新宿主遇到旧插件时给出明确升级错误. 共享契约, JSON 结构/恶意边界, 最长匹配, 风格/多音字/分组, Binder 与 Node 路径均有回归用例.
+- [x] (宿主/测试/文档) 顶层 `pinyin.compare` 与 `pinyin.compact` 完善 (2026-09-01): `compare(a, b)` 按 hotoo/pinyin 语义使用默认带调转换结果的嵌套数组字符串与设备 locale 排序, 返回负数/0/正数; `compact(matrix)` 复用 convert 结果已绑定 helper 的笛卡尔组合及既有空行行为, 严格拒绝非二维数组. Rhino 与 Node 路由, 文档和 TypeScript 声明同步覆盖.
+- [x] (宿主/Node.js/测试/文档) Node.js 运行时支持 (2026-09-01): 宿主 capability broker 新增 `pinyin` provider 与显式 `pinyin` 权限, 通过 Node Runtime 已公开的 `require("autojs6:bridge").callAutoJs(...)` 提供 `convert` / `simple` / `compare` / `compact` / `fromCodePoint` / `fromPhrase`; 转换仍由同一外置插件执行. 请求采用严格 JSON, `convert` 为 64 KiB 自定义词典预留有界 envelope, provider 状态随插件服务可用性变化; fake backend 全方法测试与真实已安装 Node Runtime facade 测试固定公开调用链, 无需修改 Node Runtime 插件.
 
-验收条件: 每项能力先有可复核的预期输出语料与测试, 再修改插件与宿主; 未发布的宿主能力不提前标记为插件现有功能.
+验收条件: 每项能力先有可复核的预期输出语料与测试, 再修改插件与宿主; 自定义词典与 Node 路由仅在兼容的 AutoJs6 6.8.0 宿主和声明 v1 capability 的插件组合中开放. (已满足)
 
 ## M4: 词典与数据演进 (2026-09-01, 已完成)
 

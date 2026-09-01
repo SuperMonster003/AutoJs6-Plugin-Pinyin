@@ -105,6 +105,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | تفعيل تقسيم كلمات Jieba والاستعانة بقاموس العبارات لإزالة لبس القراءات |
 | `heteronym` | `false` | إرجاع كل القراءات المرشحة لكل حرف بدل الأولى فقط |
 | `group` | `false` | دمج مرشحات بينيين حسب الكلمات المقسمة (يستخدم مع `segment`) |
+| `customDictionary` | `{}` | تجاوزات لقراءات حروف هان في هذا الاستدعاء فقط بالصيغة `{ العبارة: [[مرشحات مضبوطة النغمات], ...] }`; تفوز أطول مطابقة ولا تحفظ البيانات, ويلزم مضيف AutoJs6 ومكون إضافي متوافقان |
 
 تقبل الأوضاع الثوابت أيضا (مثل `pinyin.MODE_PLACE_NAME`). يستخدم `PLACE_NAME` أطول تطابق في مجموعة صغيرة مراجعة يدويا, ويعود النص غير المدرج إلى `NORMAL`. هذه ليست قائمة وطنية شاملة; راجع [المجموعة ومصادرها](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md).
 
@@ -156,6 +160,8 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - تستعلم `fromCodePoint` عن سجل القراءة الأصلي لنقطة رمز مفردة في القاموس (مرشحات بالنغمات مفصولة بفواصل), وتعيد `null` إذا لم تكن مدرجة.
 - تستعلم `fromPhrase` عن قاموس العبارات وتعيد القراءات المرشحة لكل موضع حرف في العبارة; وتعيد مصفوفة فارغة إذا لم تكن مدرجة.
 - تعيد كل الطرق نتائجها بشكل متزامن; ويحتاج أول استدعاء إلى تهيئة القواميس المضمنة فقد يتأخر قليلا.
+
+#### Node.js
+
+في بيئة Node.js استدع المزود نفسه عبر واجهة `autojs6:bridge` العامة وصرح صراحة بقدرة `pinyin`:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ console.log(pinyin.simple("拼音"));
 #### لماذا يبلغ حجم حزمة التثبيت نحو 6 MB?
 
 تضم الحزمة أربع مجموعات بيانات: قاموس الأحرف المفردة, وقاموس العبارات, ومعجم تقسيم الكلمات, ونموذج HMM, مقابل عمل كامل دون اتصال ودقة أعلى في التدوين الصوتي. وإن كان الحجم أهم لديك, ففكر في المكون الشقيق [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) البالغ نحو 0.3 MB.
+
+#### لماذا يرفض `customDictionary` أو استدعاء Pinyin من Node.js?
+
+تتطلب هذه المسارات إصدارين متوافقين من AutoJs6 ومكون Pinyin الإضافي. ويجب أن تعلن استدعاءات Node.js عن `permissions: ["pinyin"]`. يقتصر القاموس المخصص على استدعاء واحد ويلتزم بالحدود الموثقة لعدد الإدخالات والمرشحات والتوليفات و 64 KiB.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-تستجيب `PinyinPluginService` لـ action باسم `org.autojs.plugin.PINYIN` (والفئة category هي `pinyin`), وتكشف 5 طرق عبر واجهة AIDL باسم `IPinyinPlugin`; تعيد `convert` و `fromPhrase` مصفوفات ثنائية الأبعاد كسلاسل JSON, وتمرر الخيارات عبر `Bundle` (المفاتيح: `mode` / `style` / `segment` / `heteronym` / `group`). الخدمة و `WakeActivity` كلتاهما محميتان بإذن `org.autojs.permission.PLUGIN`, فلا تستطيع تطبيقات الجهات الخارجية استدعاءهما مباشرة.
+تستجيب `PinyinPluginService` لـ action باسم `org.autojs.plugin.PINYIN` (والفئة category هي `pinyin`), وتكشف 5 طرق عبر واجهة AIDL باسم `IPinyinPlugin`; تعيد `convert` و `fromPhrase` مصفوفات ثنائية الأبعاد كسلاسل JSON, وتمرر الخيارات عبر `Bundle` (المفاتيح: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). تتطلب القواميس المخصصة capability باسم `pinyin.customDictionary.v1`. الخدمة و `WakeActivity` كلتاهما محميتان بإذن `org.autojs.permission.PLUGIN`, فلا تستطيع تطبيقات الجهات الخارجية استدعاءهما مباشرة.
 
 ******
 

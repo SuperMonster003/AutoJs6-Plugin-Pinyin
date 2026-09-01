@@ -28,7 +28,7 @@ TONE (zhōng)  TONE2 (zhong1)  TO3NE (zho1ng)
 NORMAL (zhong)  INITIALS (zh)  FIRST_LETTER (z)
 ```
 
-支持的选项包括 `style` (拼音风格), `mode` (普通/姓氏/地名模式), `segment` (分词), `heteronym` (多音字) 与 `group` (词组合并).
+支持的选项包括 `style` (拼音风格), `mode` (普通/姓氏/地名模式), `segment` (分词), `heteronym` (多音字), `group` (词组合并) 与仅当前调用生效的 `customDictionary` 读音覆盖.
 
 ### 快速自检
 

@@ -105,6 +105,9 @@ Segmentation-based disambiguation, surname mode and place-name mode:
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ The `style` value is case-insensitive and accepts either a string (such as `"TON
 | `segment` | `false` | Enable Jieba segmentation and use the phrase dictionary to disambiguate heteronyms |
 | `heteronym` | `false` | Return all candidate pronunciations of each character instead of the first one only |
 | `group` | `false` | Merge Pinyin candidates by segmented words (use together with `segment`) |
+| `customDictionary` | `{}` | Per-call Han reading overrides as `{ phrase: [[tone-marked candidates], ...] }`; longest matches win, the data is not persisted, and a compatible AutoJs6 host and plugin are required |
 
 Modes also accept constants (such as `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` uses longest matching against a small, manually reviewed corpus; text not covered by it falls back to `NORMAL`. This is not a complete national gazetteer; see the [corpus and sources](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md).
 
@@ -156,6 +160,8 @@ The global `pinyin` object provides the following methods (calling `pinyin(text,
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - `fromCodePoint` looks up the raw dictionary record of a single code point (comma-separated tone-marked candidates) and returns `null` when it is not covered.
 - `fromPhrase` looks up the phrase dictionary and returns the candidate readings of each character slot of the phrase; an empty array is returned when it is not covered.
 - All methods return synchronously; the very first call initializes the bundled dictionaries and may take slightly longer.
+
+#### Node.js
+
+In the Node.js runtime, call the same provider through the public `autojs6:bridge` facade and explicitly declare the `pinyin` capability:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ No. All dictionaries are bundled inside the APK and conversion happens on-device
 #### Why is the APK about 6 MB?
 
 The APK bundles four data sets: a character dictionary, a phrase dictionary, a segmentation lexicon and an HMM model, trading size for full offline operation and higher accuracy. If size matters more to you, consider the sibling plugin [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) at about 0.3 MB.
+
+#### Why is `customDictionary` or a Node.js Pinyin call rejected?
+
+These routes require compatible AutoJs6 and Pinyin plugin builds. Node.js calls must declare `permissions: ["pinyin"]`. A custom dictionary is scoped to one call and must remain within the documented entry, candidate, combination and 64 KiB limits.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-`PinyinPluginService` responds to the `org.autojs.plugin.PINYIN` action (category `pinyin`) and exposes 5 methods through the AIDL interface `IPinyinPlugin`; `convert` and `fromPhrase` return 2D arrays as JSON strings, and options travel in a `Bundle` (keys: `mode` / `style` / `segment` / `heteronym` / `group`). Both the service and `WakeActivity` are protected by the `org.autojs.permission.PLUGIN` permission, so third-party apps cannot invoke them directly.
+`PinyinPluginService` responds to the `org.autojs.plugin.PINYIN` action (category `pinyin`) and exposes 5 methods through the AIDL interface `IPinyinPlugin`; `convert` and `fromPhrase` return 2D arrays as JSON strings, and options travel in a `Bundle` (keys: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). Custom dictionaries require the `pinyin.customDictionary.v1` capability. Both the service and `WakeActivity` are protected by the `org.autojs.permission.PLUGIN` permission, so third-party apps cannot invoke them directly.
 
 ******
 

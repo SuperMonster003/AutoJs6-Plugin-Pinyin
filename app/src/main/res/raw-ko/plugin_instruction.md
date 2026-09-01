@@ -28,7 +28,7 @@ TONE (zhōng)  TONE2 (zhong1)  TO3NE (zho1ng)
 NORMAL (zhong)  INITIALS (zh)  FIRST_LETTER (z)
 ```
 
-지원하는 옵션으로는 `style` (병음 스타일), `mode` (일반/성씨/지명 모드), `segment` (단어 분할), `heteronym` (다음자), `group` (어구 병합) 이 있습니다.
+지원하는 옵션으로는 `style` (병음 스타일), `mode` (일반/성씨/지명 모드), `segment` (단어 분할), `heteronym` (다음자), `group` (어구 병합), 현재 호출에만 적용되는 `customDictionary` 가 있습니다.
 
 ### 자가 점검
 

@@ -221,6 +221,63 @@ class PinyinConverterTest {
         )
     }
 
+    @Test
+    fun customDictionaryUsesLongestMatchBeforeEveryBuiltInModeAndDoesNotPersist() {
+        val customDictionary = linkedMapOf(
+            "六" to listOf(listOf("liù")),
+            "六安" to listOf(listOf("liú"), listOf("ān")),
+            "市" to listOf(listOf("shì")),
+        )
+        assertEquals(
+            listOf(listOf("liu2"), listOf("an1"), listOf("shi4")),
+            converter.convert(
+                "六安市",
+                PinyinOptions(
+                    mode = PinyinMode.PLACE_NAME.value,
+                    style = PinyinStyle.TONE2.value,
+                    customDictionary = customDictionary,
+                ),
+            ),
+        )
+        assertEquals(
+            listOf(listOf("lù"), listOf("ān")),
+            converter.convert("六安", PinyinOptions(mode = PinyinMode.PLACE_NAME.value)),
+        )
+    }
+
+    @Test
+    fun customDictionaryComposesHeteronymsGroupingAndStyleFormatting() {
+        val result = converter.convert(
+            "重行",
+            PinyinOptions(
+                style = PinyinStyle.TONE2.value,
+                heteronym = true,
+                group = true,
+                customDictionary = mapOf(
+                    "重行" to listOf(
+                        listOf("zhòng", "chóng"),
+                        listOf("xíng", "háng"),
+                    ),
+                ),
+            ),
+        )
+
+        assertEquals(
+            listOf(listOf("zhong4xing2", "zhong4hang2", "chong2xing2", "chong2hang2")),
+            result,
+        )
+        assertEquals(
+            listOf(listOf("a")),
+            converter.convert(
+                "阿",
+                PinyinOptions(
+                    style = PinyinStyle.FIRST_LETTER.value,
+                    customDictionary = mapOf("阿" to listOf(listOf("ā"))),
+                ),
+            ),
+        )
+    }
+
     private class FakeDictionary(
         characters: Map<String, String>,
         private val phrases: Map<String, List<List<String>>>,

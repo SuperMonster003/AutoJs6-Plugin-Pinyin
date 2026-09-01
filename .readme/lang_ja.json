@@ -53,9 +53,11 @@
   "td_option_segment": "Jieba 単語分割を有効化し, フレーズ辞書で多音字の曖昧さを解消",
   "td_option_heteronym": "第一候補だけでなく各文字の全読み候補を返す",
   "td_option_group": "分割で得たフレーズ単位にピンイン候補を結合 (`segment` と併用)",
+  "td_option_custom_dictionary": "現在の呼び出しだけに適用する漢字読みの上書きです. 形式は `{ 語句: [[声調付き候補], ...] }` で最長一致が優先され, 永続化されません. 対応する AutoJs6 ホストとプラグインが必要です",
   "p_options_note": "モードには定数 (例: `pinyin.MODE_PLACE_NAME`) も指定できます. `PLACE_NAME` は小規模な手動確認済みコーパスを最長一致で検索し, 未収録のテキストは `NORMAL` にフォールバックします. 全国地名の完全な台帳ではありません; [コーパスと出典]({{ repo_url }}/blob/master/docs/dictionaries/place-names.md) を参照してください.",
   "h3_script_api": "スクリプト API",
   "p_script_api_intro": "グローバルオブジェクト `pinyin` は次のメソッドを提供します (`pinyin(text, options)` の直接呼び出しは `pinyin.convert` と等価です)",
+  "p_node_api_note": "Node.js ランタイムでは公開 `autojs6:bridge` facade から同じ provider を呼び出し, `pinyin` capability を明示的に宣言します",
   "api_points": [
     "`convert` は 2 次元配列を返します: 漢字またはフレーズ内の各文字スロットが 1 行を占め, 行内はその読み候補です; 未収録文字と非中国語文字はそのまま 1 行を占めます. 返される配列には `compact()` メソッドが付属し, 全読み組み合わせに展開できます.",
     "`simple` はコンパクトな文字列を返します: 各文字の第一候補の読みをそのまま連結します; 第 2 引数が `true` のときは数字声調 (TONE2 スタイル) で出力し, それ以外は声調なしです; 第 3 引数が `true` のときは単語分割を有効にします.",
@@ -95,6 +97,10 @@
     {
       "q": "インストールパッケージが約 6 MB あるのはなぜですか?",
       "a": "インストールパッケージには単漢字辞書, フレーズ辞書, 単語分割用の語彙, HMM モデルの 4 つのデータを内蔵しており, その分完全オフラインとより高い読み付与の精度を実現しています. サイズを重視する場合は, 約 0.3 MB の姉妹プラグイン [Pinyin4j]({{ pinyin4j_repo_url }}) をご検討ください."
+    },
+    {
+      "q": "`customDictionary` または Node.js のピンイン呼び出しが拒否されるのはなぜですか?",
+      "a": "これらの経路には対応する AutoJs6 と Pinyin プラグインが必要です. Node.js 呼び出しでは `permissions: [\"pinyin\"]` を宣言してください. カスタム辞書は 1 回の呼び出しだけに適用され, 文書化されたエントリ数, 候補数, 組み合わせ数, 64 KiB の上限を守る必要があります."
     }
   ],
   "h3_security": "権限とセキュリティ",
@@ -137,7 +143,7 @@
   "p_sibling_note": "2 つのプラグインは互いに依存も競合もしません; 同時にインストールすれば, スクリプトから必要に応じて `pinyin` と `pinyin4j` をそれぞれ呼び出せます. Pinyin4j プラグインの詳細は [AutoJs6-Plugin-Pinyin4j]({{ pinyin4j_repo_url }}) を参照してください.",
   "h3_plugin_interface": "プラグインインターフェース",
   "p_plugin_interface": "以下の情報は AutoJs6 ホストとプラグイン開発者向けです. ホストはこれらの識別子でプラグインを検出し, 機能ネゴシエーションを行います",
-  "p_contract_service": "`PinyinPluginService` は `{{ discovery_action }}` action (category `{{ discovery_category }}`) に応答し, AIDL インターフェース `{{ binder_interface }}` を通じて 5 つのメソッドを公開します; `convert` と `fromPhrase` は 2 次元配列を JSON 文字列で返し, オプションは `Bundle` で渡されます (キー: `mode` / `style` / `segment` / `heteronym` / `group`). サービスと `WakeActivity` はいずれも `org.autojs.permission.PLUGIN` 権限で保護され, サードパーティアプリから直接呼び出せません.",
+  "p_contract_service": "`PinyinPluginService` は `{{ discovery_action }}` action (category `{{ discovery_category }}`) に応答し, AIDL インターフェース `{{ binder_interface }}` を通じて 5 つのメソッドを公開します; `convert` と `fromPhrase` は 2 次元配列を JSON 文字列で返し, オプションは `Bundle` で渡されます (キー: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). カスタム辞書には `pinyin.customDictionary.v1` capability が必要です. サービスと `WakeActivity` はいずれも `org.autojs.permission.PLUGIN` 権限で保護され, サードパーティアプリから直接呼び出せません.",
   "h3_roadmap": "開発ロードマップ",
   "p_roadmap": "プラグインの機能計画と完了状況は, マイルストーンごとに受け入れ条件付きで整理されたチェック可能なリストとして ROADMAP.md で管理されており, 地名モード, 辞書の進化, カスタム辞書, パフォーマンス最適化, 継続的インテグレーションなどの方向を扱います. 未チェックの項目は計画中の意向であり現行バージョンの機能ではありません. Issues での議論を歓迎します.",
   "text_link_roadmap": "ROADMAP.md を見る",
@@ -161,6 +167,6 @@
   "text_link_pinyin4j_plugin": "姉妹プラグイン Pinyin4j",
   "text_link_hotoo_pinyin": "pinyin ライブラリ (API 設計の参考)",
   "text_link_jieba_analysis": "jieba-analysis プロジェクト",
-  "p_instruction_options": "サポートされるオプションには `style` (ピンインスタイル), `mode` (通常/姓氏/地名モード), `segment` (単語分割), `heteronym` (多音字), `group` (フレーズ結合) があります.",
+  "p_instruction_options": "サポートされるオプションには `style` (ピンインスタイル), `mode` (通常/姓氏/地名モード), `segment` (単語分割), `heteronym` (多音字), `group` (フレーズ結合), 現在の呼び出しだけに適用する `customDictionary` があります.",
   "p_instruction_docs": "より詳しい使い方とオプションの説明は [AutoJs6 Pinyin ドキュメント]({{ docs_pinyin_url }}) と [プロジェクトホームページ]({{ repo_url }}) を参照してください."
 }

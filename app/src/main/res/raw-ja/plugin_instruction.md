@@ -28,7 +28,7 @@ TONE (zhōng)  TONE2 (zhong1)  TO3NE (zho1ng)
 NORMAL (zhong)  INITIALS (zh)  FIRST_LETTER (z)
 ```
 
-サポートされるオプションには `style` (ピンインスタイル), `mode` (通常/姓氏/地名モード), `segment` (単語分割), `heteronym` (多音字), `group` (フレーズ結合) があります.
+サポートされるオプションには `style` (ピンインスタイル), `mode` (通常/姓氏/地名モード), `segment` (単語分割), `heteronym` (多音字), `group` (フレーズ結合), 現在の呼び出しだけに適用する `customDictionary` があります.
 
 ### セルフチェック
 

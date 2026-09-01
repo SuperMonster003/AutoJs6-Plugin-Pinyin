@@ -15,10 +15,12 @@ import org.autojs.plugin.pinyin.api.IPinyinPlugin
 import org.autojs.plugin.pinyin.api.PinyinOptionKeys
 import org.autojs.plugin.pinyin.api.PinyinPluginActions
 import org.autojs.plugin.pinyin.api.PinyinPluginIds
+import org.autojs.plugin.pinyin.api.PinyinPluginCapabilityKeys
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
@@ -72,6 +74,35 @@ class PinyinPluginServiceTest {
                 plugin.convert("中心", null),
                 plugin.convert("中心", options(mode = MODE_PLACE_NAME)),
             )
+            assertEquals(
+                "[[\"liu2\"],[\"an1\"],[\"shi4\"]]",
+                plugin.convert(
+                    "六安市",
+                    options(
+                        mode = MODE_PLACE_NAME,
+                        style = STYLE_TONE2,
+                        customDictionaryJson = """{"六安":[["liú"],["ān"]],"市":[["shì"]]}""",
+                    ),
+                ),
+            )
+            assertEquals(
+                "[[\"zhong4xing2\",\"zhong4hang2\",\"chong2xing2\",\"chong2hang2\"]]",
+                plugin.convert(
+                    "重行",
+                    options(
+                        style = STYLE_TONE2,
+                        heteronym = true,
+                        group = true,
+                        customDictionaryJson = """{"重行":[["zhòng","chóng"],["xíng","háng"]]}""",
+                    ),
+                ),
+            )
+            assertThrows(IllegalArgumentException::class.java) {
+                plugin.convert(
+                    "重",
+                    options(customDictionaryJson = """{"重":[["ZHONG"]]}"""),
+                )
+            }
 
             assertEquals("zhong1xin1", plugin.simple("中心", true, false))
             assertEquals("yinyuezhongyao", plugin.simple("音乐重要", false, true))
@@ -152,6 +183,7 @@ class PinyinPluginServiceTest {
 
         val capabilities = requireNotNull(info.capabilities) { "Plugin capabilities are missing" }
         assertEquals(3923, capabilities.getInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION))
+        assertTrue(capabilities.getBoolean(PinyinPluginCapabilityKeys.CUSTOM_DICTIONARY_V1))
     }
 
     private fun options(
@@ -160,12 +192,14 @@ class PinyinPluginServiceTest {
         segment: Boolean = false,
         heteronym: Boolean = false,
         group: Boolean = false,
+        customDictionaryJson: String? = null,
     ): Bundle = Bundle().apply {
         putInt(PinyinOptionKeys.MODE, mode)
         putInt(PinyinOptionKeys.STYLE, style)
         putBoolean(PinyinOptionKeys.SEGMENT, segment)
         putBoolean(PinyinOptionKeys.HETERONYM, heteronym)
         putBoolean(PinyinOptionKeys.GROUP, group)
+        customDictionaryJson?.let { putString(PinyinOptionKeys.CUSTOM_DICTIONARY_JSON, it) }
     }
 
     private fun withBoundPlugin(block: (IPinyinPlugin) -> Unit) {

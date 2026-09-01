@@ -53,9 +53,11 @@
   "td_option_segment": "Enable Jieba segmentation and use the phrase dictionary to disambiguate heteronyms",
   "td_option_heteronym": "Return all candidate pronunciations of each character instead of the first one only",
   "td_option_group": "Merge Pinyin candidates by segmented words (use together with `segment`)",
+  "td_option_custom_dictionary": "Per-call Han reading overrides as `{ phrase: [[tone-marked candidates], ...] }`; longest matches win, the data is not persisted, and a compatible AutoJs6 host and plugin are required",
   "p_options_note": "Modes also accept constants (such as `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` uses longest matching against a small, manually reviewed corpus; text not covered by it falls back to `NORMAL`. This is not a complete national gazetteer; see the [corpus and sources]({{ repo_url }}/blob/master/docs/dictionaries/place-names.md).",
   "h3_script_api": "Script API",
   "p_script_api_intro": "The global `pinyin` object provides the following methods (calling `pinyin(text, options)` directly is equivalent to `pinyin.convert`)",
+  "p_node_api_note": "In the Node.js runtime, call the same provider through the public `autojs6:bridge` facade and explicitly declare the `pinyin` capability",
   "api_points": [
     "`convert` returns a 2D array: each Chinese character or phrase slot occupies one row holding its candidate readings; unknown and non-Chinese characters keep one row as-is. The returned array carries a `compact()` method that expands all pronunciation combinations.",
     "`simple` returns a compact string: the first reading of each character is concatenated; pass `true` as the 2nd argument for numeric tones (TONE2 style, plain otherwise) and `true` as the 3rd argument to enable segmentation.",
@@ -95,6 +97,10 @@
     {
       "q": "Why is the APK about 6 MB?",
       "a": "The APK bundles four data sets: a character dictionary, a phrase dictionary, a segmentation lexicon and an HMM model, trading size for full offline operation and higher accuracy. If size matters more to you, consider the sibling plugin [Pinyin4j]({{ pinyin4j_repo_url }}) at about 0.3 MB."
+    },
+    {
+      "q": "Why is `customDictionary` or a Node.js Pinyin call rejected?",
+      "a": "These routes require compatible AutoJs6 and Pinyin plugin builds. Node.js calls must declare `permissions: [\"pinyin\"]`. A custom dictionary is scoped to one call and must remain within the documented entry, candidate, combination and 64 KiB limits."
     }
   ],
   "h3_security": "Permissions and security",
@@ -137,7 +143,7 @@
   "p_sibling_note": "The two plugins neither depend on nor conflict with each other; once both are installed, scripts can call `pinyin` and `pinyin4j` as needed. See [AutoJs6-Plugin-Pinyin4j]({{ pinyin4j_repo_url }}) for details.",
   "h3_plugin_interface": "Plugin interface",
   "p_plugin_interface": "The following information targets AutoJs6 host and plugin developers; the host uses these identifiers to discover the plugin and negotiate capabilities",
-  "p_contract_service": "`PinyinPluginService` responds to the `{{ discovery_action }}` action (category `{{ discovery_category }}`) and exposes 5 methods through the AIDL interface `{{ binder_interface }}`; `convert` and `fromPhrase` return 2D arrays as JSON strings, and options travel in a `Bundle` (keys: `mode` / `style` / `segment` / `heteronym` / `group`). Both the service and `WakeActivity` are protected by the `org.autojs.permission.PLUGIN` permission, so third-party apps cannot invoke them directly.",
+  "p_contract_service": "`PinyinPluginService` responds to the `{{ discovery_action }}` action (category `{{ discovery_category }}`) and exposes 5 methods through the AIDL interface `{{ binder_interface }}`; `convert` and `fromPhrase` return 2D arrays as JSON strings, and options travel in a `Bundle` (keys: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). Custom dictionaries require the `pinyin.customDictionary.v1` capability. Both the service and `WakeActivity` are protected by the `org.autojs.permission.PLUGIN` permission, so third-party apps cannot invoke them directly.",
   "h3_roadmap": "Roadmap",
   "p_roadmap": "The plugin capability plan and its progress are maintained as a checkable list in ROADMAP.md, organized by milestones with acceptance criteria, covering place-name mode, dictionary evolution, custom dictionaries, performance and continuous integration. Unchecked items express intent rather than current capabilities; feel free to join the discussion via Issues.",
   "text_link_roadmap": "View ROADMAP.md",
@@ -161,6 +167,6 @@
   "text_link_pinyin4j_plugin": "Sibling plugin Pinyin4j",
   "text_link_hotoo_pinyin": "pinyin library (API design reference)",
   "text_link_jieba_analysis": "jieba-analysis project",
-  "p_instruction_options": "Supported options include `style` (Pinyin style), `mode` (normal/surname/place-name), `segment` (word segmentation), `heteronym` (all candidate readings) and `group` (merge by words).",
+  "p_instruction_options": "Supported options include `style` (Pinyin style), `mode` (normal/surname/place-name), `segment` (word segmentation), `heteronym` (all candidate readings), `group` (merge by words) and per-call `customDictionary` reading overrides.",
   "p_instruction_docs": "For more usage and option details, refer to the [AutoJs6 Pinyin documentation]({{ docs_pinyin_url }}) and the [project homepage]({{ repo_url }})."
 }

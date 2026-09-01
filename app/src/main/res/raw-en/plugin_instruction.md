@@ -28,7 +28,7 @@ TONE (zhōng)  TONE2 (zhong1)  TO3NE (zho1ng)
 NORMAL (zhong)  INITIALS (zh)  FIRST_LETTER (z)
 ```
 
-Supported options include `style` (Pinyin style), `mode` (normal/surname/place-name), `segment` (word segmentation), `heteronym` (all candidate readings) and `group` (merge by words).
+Supported options include `style` (Pinyin style), `mode` (normal/surname/place-name), `segment` (word segmentation), `heteronym` (all candidate readings), `group` (merge by words) and per-call `customDictionary` reading overrides.
 
 ### Self check
 

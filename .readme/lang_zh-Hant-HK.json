@@ -53,9 +53,11 @@
   "td_option_segment": "啟用 Jieba 分詞, 借助詞組詞典消歧多音字",
   "td_option_heteronym": "返回每個字的全部候選讀音, 而非僅首選讀音",
   "td_option_group": "按分詞得到的詞組合併拼音候選 (需配合 `segment`)",
+  "td_option_custom_dictionary": "當前調用的漢字讀音覆蓋, 格式為 `{ 詞: [[帶調候選], ...] }`; 最長匹配優先且不持久化, 需兼容的 AutoJs6 宿主與外掛",
   "p_options_note": "模式也可傳常量 (如 `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` 對小規模人工複核語料執行最長匹配, 未收錄文字回退 `NORMAL`; 它並非全國標準地名全量庫, 覆蓋範圍與出處參見 [語料及來源]({{ repo_url }}/blob/master/docs/dictionaries/place-names.md).",
   "h3_script_api": "腳本 API",
   "p_script_api_intro": "`pinyin` 全局對象提供以下方法 (直接調用 `pinyin(text, options)` 等價於 `pinyin.convert`)",
+  "p_node_api_note": "在 Node.js 運行時中, 透過公開 `autojs6:bridge` facade 調用同一 provider, 並明確聲明 `pinyin` capability",
   "api_points": [
     "`convert` 返回二維數組: 每個漢字或詞組字位佔一行, 行內為候選讀音; 未收錄字元與非中文字元原樣佔一行. 返回數組附帶 `compact()` 方法, 可展開為全部讀音組合.",
     "`simple` 返回緊湊字串: 每字取首選讀音直接拼接; 第 2 參數為 `true` 時輸出數字聲調 (TONE2 風格), 否則不帶聲調; 第 3 參數為 `true` 時啟用分詞.",
@@ -95,6 +97,10 @@
     {
       "q": "安裝包為什麼有約 6 MB?",
       "a": "安裝包內置單字字典, 詞組字典, 分詞詞庫與 HMM 模型四份數據, 以此換取完全離線與更高的注音準確率. 若更在意體積, 可考慮約 0.3 MB 的姊妹外掛 [Pinyin4j]({{ pinyin4j_repo_url }})."
+    },
+    {
+      "q": "為甚麼 `customDictionary` 或 Node.js 拼音調用被拒絕?",
+      "a": "這些路由要求兼容的 AutoJs6 與 Pinyin 外掛版本. Node.js 調用必須聲明 `permissions: [\"pinyin\"]`. 自訂詞典僅對當前調用生效, 且必須符合文檔中的條目數, 候選數, 組合數與 64 KiB 限制."
     }
   ],
   "h3_security": "權限與安全",
@@ -137,7 +143,7 @@
   "p_sibling_note": "兩個外掛互不依賴也互不衝突; 同時安裝後, 腳本可按需分別調用 `pinyin` 與 `pinyin4j`. Pinyin4j 外掛詳見 [AutoJs6-Plugin-Pinyin4j]({{ pinyin4j_repo_url }}).",
   "h3_plugin_interface": "外掛接口",
   "p_plugin_interface": "以下資訊面向 AutoJs6 宿主與外掛開發者, 宿主透過這些標識發現外掛並完成能力協商",
-  "p_contract_service": "`PinyinPluginService` 響應 `{{ discovery_action }}` action (category `{{ discovery_category }}`), 透過 AIDL 接口 `{{ binder_interface }}` 暴露 5 個方法; `convert` 與 `fromPhrase` 以 JSON 字串返回二維數組, 選項經 `Bundle` 傳遞 (鍵: `mode` / `style` / `segment` / `heteronym` / `group`). 服務與 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 權限保護, 第三方應用無法直接調用.",
+  "p_contract_service": "`PinyinPluginService` 響應 `{{ discovery_action }}` action (category `{{ discovery_category }}`), 透過 AIDL 接口 `{{ binder_interface }}` 暴露 5 個方法; `convert` 與 `fromPhrase` 以 JSON 字串返回二維數組, 選項經 `Bundle` 傳遞 (鍵: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). 自訂詞典要求 `pinyin.customDictionary.v1` capability. 服務與 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 權限保護, 第三方應用無法直接調用.",
   "h3_roadmap": "開發路線圖",
   "p_roadmap": "外掛的能力規劃與完成情況以可勾選清單維護在 ROADMAP.md 中, 按里程碑組織並附驗收條件, 涵蓋地名模式, 詞典演進, 自定義詞典, 效能優化與持續集成等方向. 未勾選條目表示規劃意向而非目前版本能力, 歡迎透過 Issues 參與討論.",
   "text_link_roadmap": "查看 ROADMAP.md",
@@ -161,6 +167,6 @@
   "text_link_pinyin4j_plugin": "姊妹外掛 Pinyin4j",
   "text_link_hotoo_pinyin": "pinyin 庫 (API 設計參考)",
   "text_link_jieba_analysis": "jieba-analysis 項目",
-  "p_instruction_options": "支援的選項包括 `style` (拼音風格), `mode` (普通/姓氏/地名模式), `segment` (分詞), `heteronym` (多音字) 與 `group` (詞組合併).",
+  "p_instruction_options": "支援的選項包括 `style` (拼音風格), `mode` (普通/姓氏/地名模式), `segment` (分詞), `heteronym` (多音字), `group` (詞組合併) 與僅當前調用生效的 `customDictionary` 讀音覆蓋.",
   "p_instruction_docs": "更多用法與選項說明可參閱 [AutoJs6 Pinyin 文檔]({{ docs_pinyin_url }}) 與 [項目主頁]({{ repo_url }})."
 }

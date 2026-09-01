@@ -53,9 +53,11 @@
   "td_option_segment": "Active la segmentation Jieba et exploite le dictionnaire de mots pour désambiguïser les polyphones",
   "td_option_heteronym": "Renvoie toutes les lectures candidates de chaque caractère au lieu de la seule première",
   "td_option_group": "Regroupe les candidats pinyin par mots segmentés (à utiliser avec `segment`)",
+  "td_option_custom_dictionary": "Lectures Han de remplacement pour cet appel au format `{ expression: [[candidats avec tons], ...] }`; la correspondance la plus longue prévaut, rien n'est conservé et un hôte AutoJs6 ainsi qu'un plugin compatibles sont requis",
   "p_options_note": "Les modes acceptent aussi des constantes (comme `pinyin.MODE_PLACE_NAME`). `PLACE_NAME` cherche la correspondance la plus longue dans un petit corpus vérifié manuellement; le texte absent revient à `NORMAL`. Il ne s'agit pas d'un répertoire national exhaustif; consultez le [corpus et ses sources]({{ repo_url }}/blob/master/docs/dictionaries/place-names.md).",
   "h3_script_api": "API De Script",
   "p_script_api_intro": "L'objet global `pinyin` fournit les méthodes suivantes (appeler directement `pinyin(text, options)` équivaut à `pinyin.convert`)",
+  "p_node_api_note": "Dans l'environnement Node.js, appelez le même fournisseur via la façade publique `autojs6:bridge` et déclarez explicitement la capacité `pinyin`",
   "api_points": [
     "`convert` renvoie un tableau 2D: chaque caractère chinois ou position de caractère d'un mot occupe une ligne contenant ses lectures candidates; les caractères non couverts et non chinois gardent une ligne telle quelle. Le tableau renvoyé porte une méthode `compact()` qui déploie toutes les combinaisons de lectures.",
     "`simple` renvoie une chaîne compacte: la première lecture de chaque caractère est concaténée; passez `true` en 2e argument pour des tons numériques (style TONE2, sans tons sinon) et `true` en 3e argument pour activer la segmentation.",
@@ -95,6 +97,10 @@
     {
       "q": "Pourquoi l'APK pèse-t-il environ 6 MB?",
       "a": "L'APK embarque quatre jeux de données: un dictionnaire de caractères, un dictionnaire de mots, un lexique de segmentation et un modèle HMM, échangeant de la taille contre un fonctionnement entièrement hors ligne et une meilleure justesse. Si la taille prime pour vous, envisagez le plugin frère [Pinyin4j]({{ pinyin4j_repo_url }}) d'environ 0.3 MB."
+    },
+    {
+      "q": "Pourquoi `customDictionary` ou un appel Pinyin depuis Node.js est-il refusé?",
+      "a": "Ces chemins exigent des versions compatibles d'AutoJs6 et du plugin Pinyin. Les appels Node.js doivent déclarer `permissions: [\"pinyin\"]`. Le dictionnaire personnalisé ne vaut que pour un appel et doit respecter les limites documentées d'entrées, de candidats, de combinaisons et de 64 KiB."
     }
   ],
   "h3_security": "Permissions Et Sécurité",
@@ -137,7 +143,7 @@
   "p_sibling_note": "Les deux plugins ne dépendent pas l'un de l'autre et ne se gênent pas; une fois les deux installés, les scripts appellent `pinyin` et `pinyin4j` selon le besoin. Voir [AutoJs6-Plugin-Pinyin4j]({{ pinyin4j_repo_url }}) pour les détails.",
   "h3_plugin_interface": "Interface Du Plugin",
   "p_plugin_interface": "Les informations suivantes s'adressent aux développeurs de l'hôte AutoJs6 et de plugins; l'hôte utilise ces identifiants pour découvrir le plugin et négocier les capacités",
-  "p_contract_service": "`PinyinPluginService` répond à l'action `{{ discovery_action }}` (catégorie `{{ discovery_category }}`) et expose 5 méthodes via l'interface AIDL `{{ binder_interface }}`; `convert` et `fromPhrase` renvoient des tableaux 2D sous forme de chaînes JSON, et les options transitent dans un `Bundle` (clés: `mode` / `style` / `segment` / `heteronym` / `group`). Le service et `WakeActivity` sont protégés par la permission `org.autojs.permission.PLUGIN`, les applications tierces ne peuvent donc pas les appeler directement.",
+  "p_contract_service": "`PinyinPluginService` répond à l'action `{{ discovery_action }}` (catégorie `{{ discovery_category }}`) et expose 5 méthodes via l'interface AIDL `{{ binder_interface }}`; `convert` et `fromPhrase` renvoient des tableaux 2D sous forme de chaînes JSON, et les options transitent dans un `Bundle` (clés: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). Les dictionnaires personnalisés exigent la capacité `pinyin.customDictionary.v1`. Le service et `WakeActivity` sont protégés par la permission `org.autojs.permission.PLUGIN`, les applications tierces ne peuvent donc pas les appeler directement.",
   "h3_roadmap": "Feuille De Route",
   "p_roadmap": "Les capacités prévues du plugin et leur avancement sont maintenus sous forme de liste cochable dans ROADMAP.md, organisée par jalons avec critères d'acceptation, couvrant le mode toponymes, l'évolution des dictionnaires, les dictionnaires personnalisés, les performances et l'intégration continue. Les éléments non cochés expriment une intention et non des capacités actuelles; les discussions via Issues sont bienvenues.",
   "text_link_roadmap": "Voir ROADMAP.md",
@@ -161,6 +167,6 @@
   "text_link_pinyin4j_plugin": "Plugin frère Pinyin4j",
   "text_link_hotoo_pinyin": "Bibliothèque pinyin (référence de conception d'API)",
   "text_link_jieba_analysis": "Projet jieba-analysis",
-  "p_instruction_options": "Les options prises en charge comprennent `style` (style de pinyin), `mode` (normal/nom de famille/toponyme), `segment` (segmentation en mots), `heteronym` (toutes les lectures candidates) et `group` (regroupement par mots).",
+  "p_instruction_options": "Les options prises en charge comprennent `style` (style de pinyin), `mode` (normal/nom de famille/toponyme), `segment` (segmentation en mots), `heteronym` (toutes les lectures candidates), `group` (regroupement par mots) et les lectures `customDictionary` limitées à l'appel courant.",
   "p_instruction_docs": "Pour plus de détails sur l'utilisation et les options, consultez la [documentation AutoJs6 Pinyin]({{ docs_pinyin_url }}) et la [page du projet]({{ repo_url }})."
 }

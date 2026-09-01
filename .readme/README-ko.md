@@ -105,6 +105,9 @@ console.log(result.compact());
 console.log(pinyin.simple("音乐重要", false, true));
 console.log(pinyin.convert("单田芳", { mode: "SURNAME" }));
 console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ān"]]
+console.log(pinyin.convert("六安", {
+  customDictionary: { "六安": [["liú"], ["ān"]] },
+})); // [["liú"], ["ān"]]
 ```
 
 ******
@@ -141,6 +144,7 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 | `segment` | `false` | Jieba 단어 분할을 활성화하고 어구 사전으로 다음자 발음을 판별 |
 | `heteronym` | `false` | 첫 번째 발음만이 아니라 각 글자의 모든 후보 발음을 반환 |
 | `group` | `false` | 분할된 어구 단위로 병음 후보를 병합 (`segment` 와 함께 사용) |
+| `customDictionary` | `{}` | 현재 호출에만 적용되는 한자 발음 재정의이며 형식은 `{ 어구: [[성조 후보], ...] }` 입니다. 최장 일치가 우선하고 저장되지 않으며 호환되는 AutoJs6 호스트와 플러그인이 필요합니다 |
 
 모드는 상수 (예: `pinyin.MODE_PLACE_NAME`) 로도 전달할 수 있습니다. `PLACE_NAME` 은 소규모 수동 검토 말뭉치에서 최장 일치를 사용하며, 미수록 텍스트는 `NORMAL` 로 대체됩니다. 전국 지명의 완전한 목록은 아닙니다. [말뭉치와 출처](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/dictionaries/place-names.md) 를 참고하세요.
 
@@ -156,6 +160,8 @@ console.log(pinyin.convert("六安", { mode: "PLACE_NAME" })); // [["lù"], ["ā
 pinyin(text, options?)                   -> string[][]
 pinyin.convert(text, options?)           -> string[][]
 pinyin.simple(text, numeric?, segment?)  -> string
+pinyin.compare(textA, textB)             -> number
+pinyin.compact(matrix)                   -> string[][]
 pinyin.fromCodePoint(codePoint)          -> string | null
 pinyin.fromPhrase(phrase)                -> string[][]
 pinyin.STYLE_* / pinyin.MODE_*           -> constants
@@ -166,6 +172,24 @@ pinyin.STYLE_* / pinyin.MODE_*           -> constants
 - `fromCodePoint` 는 단일 글자 코드 포인트의 사전 원본 발음 기록 (쉼표로 구분된 성조 포함 후보) 을 조회하며, 사전에 없으면 `null` 을 반환합니다.
 - `fromPhrase` 는 어구 사전을 조회하여 해당 어구의 각 글자 자리 후보 발음을 반환합니다; 사전에 없으면 빈 배열을 반환합니다.
 - 모든 메서드는 동기적으로 반환합니다; 첫 호출 시 내장 사전 초기화가 필요하여 약간 지연될 수 있습니다.
+
+#### Node.js
+
+Node.js 런타임에서는 공개 `autojs6:bridge` facade 로 동일한 provider 를 호출하고 `pinyin` capability 를 명시적으로 선언합니다:
+
+```javascript
+const { callAutoJs } = require("autojs6:bridge");
+
+(async () => {
+  const result = await callAutoJs(
+    "pinyin",
+    "convert",
+    ["中心", { style: "TONE2" }],
+    { permissions: ["pinyin"] },
+  );
+  console.log(result); // [["zhong1"], ["xin1"]]
+})();
+```
 
 ******
 
@@ -214,6 +238,10 @@ AutoJs6 내부 빌드가 3923 이상인지, 그리고 플러그인 센터에서 
 #### 설치 패키지가 약 6 MB 인 이유는 무엇인가요?
 
 설치 패키지에는 단일 한자 사전, 어구 사전, 단어 분할 어휘집, HMM 모델 네 가지 데이터가 내장되어 있으며, 그 대가로 완전한 오프라인 동작과 더 높은 발음 표기 정확도를 얻습니다. 크기가 더 중요하다면 약 0.3 MB 인 자매 플러그인 [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) 를 고려해 보세요.
+
+#### `customDictionary` 또는 Node.js 병음 호출이 거부되는 이유는 무엇인가요?
+
+이 경로에는 호환되는 AutoJs6 와 Pinyin 플러그인 빌드가 필요합니다. Node.js 호출은 `permissions: ["pinyin"]` 를 선언해야 합니다. 사용자 사전은 한 번의 호출에만 적용되며 문서의 항목 수, 후보 수, 조합 수, 64 KiB 제한을 지켜야 합니다.
 
 ******
 
@@ -274,7 +302,7 @@ minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 ```
 
-`PinyinPluginService` 는 `org.autojs.plugin.PINYIN` action (category `pinyin`) 에 응답하며, AIDL 인터페이스 `IPinyinPlugin` 를 통해 5 개 메서드를 노출합니다; `convert` 와 `fromPhrase` 는 2차원 배열을 JSON 문자열로 반환하고, 옵션은 `Bundle` 로 전달됩니다 (키: `mode` / `style` / `segment` / `heteronym` / `group`). 서비스와 `WakeActivity` 는 모두 `org.autojs.permission.PLUGIN` 권한으로 보호되어 서드파티 앱이 직접 호출할 수 없습니다.
+`PinyinPluginService` 는 `org.autojs.plugin.PINYIN` action (category `pinyin`) 에 응답하며, AIDL 인터페이스 `IPinyinPlugin` 를 통해 5 개 메서드를 노출합니다; `convert` 와 `fromPhrase` 는 2차원 배열을 JSON 문자열로 반환하고, 옵션은 `Bundle` 로 전달됩니다 (키: `mode` / `style` / `segment` / `heteronym` / `group` / `custom_dictionary_json`). 사용자 사전에는 `pinyin.customDictionary.v1` capability 가 필요합니다. 서비스와 `WakeActivity` 는 모두 `org.autojs.permission.PLUGIN` 권한으로 보호되어 서드파티 앱이 직접 호출할 수 없습니다.
 
 ******
 
