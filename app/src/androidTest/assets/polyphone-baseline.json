@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "corpusVersion": "2026-09-01",
+  "description": "Exact regression expectations for frequent polyphonic characters; this is a quality baseline, not a claim of general-language accuracy.",
+  "cases": [
+    {
+      "id": "single-zhong",
+      "category": "candidate-order",
+      "input": "重",
+      "heteronym": true,
+      "expected": [["zhòng", "chóng"]]
+    },
+    {
+      "id": "single-chang",
+      "category": "candidate-order",
+      "input": "长",
+      "heteronym": true,
+      "expected": [["cháng", "zhǎng"]]
+    },
+    {
+      "id": "single-xing",
+      "category": "candidate-order",
+      "input": "行",
+      "heteronym": true,
+      "expected": [["háng", "xíng"]]
+    },
+    {
+      "id": "single-yue",
+      "category": "candidate-order",
+      "input": "乐",
+      "heteronym": true,
+      "expected": [["lè", "yuè", "yào", "lào"]]
+    },
+    {
+      "id": "single-shan",
+      "category": "candidate-order",
+      "input": "单",
+      "heteronym": true,
+      "expected": [["dān", "shàn", "chán"]]
+    },
+    {
+      "id": "phrase-chongqing",
+      "category": "phrase-disambiguation",
+      "input": "重庆",
+      "segment": true,
+      "expected": [["chóng"], ["qìng"]]
+    },
+    {
+      "id": "phrase-important",
+      "category": "phrase-disambiguation",
+      "input": "重要",
+      "segment": true,
+      "expected": [["zhòng"], ["yào"]]
+    },
+    {
+      "id": "phrase-grow-up",
+      "category": "phrase-disambiguation",
+      "input": "长大",
+      "segment": true,
+      "expected": [["zhǎng"], ["dà"]]
+    },
+    {
+      "id": "phrase-walk",
+      "category": "phrase-disambiguation",
+      "input": "行走",
+      "segment": true,
+      "expected": [["xíng"], ["zǒu"]]
+    },
+    {
+      "id": "phrase-music",
+      "category": "phrase-disambiguation",
+      "input": "音乐",
+      "segment": true,
+      "expected": [["yīn"], ["yuè"]]
+    },
+    {
+      "id": "phrase-happy",
+      "category": "phrase-disambiguation",
+      "input": "快乐",
+      "segment": true,
+      "expected": [["kuài"], ["lè"]]
+    },
+    {
+      "id": "phrase-chanyu",
+      "category": "phrase-disambiguation",
+      "input": "单于",
+      "segment": true,
+      "expected": [["chán"], ["yú"]]
+    },
+    {
+      "id": "surname-shan",
+      "category": "surname",
+      "input": "单田芳",
+      "mode": 1,
+      "expected": [["shàn"], ["tián"], ["fāng"]]
+    },
+    {
+      "id": "surname-zhangsun",
+      "category": "surname",
+      "input": "长孙无忌",
+      "mode": 1,
+      "expected": [["zhǎng"], ["sūn"], ["wú"], ["jì"]]
+    },
+    {
+      "id": "surname-yuezheng",
+      "category": "surname",
+      "input": "乐正子",
+      "mode": 1,
+      "expected": [["yuè"], ["zhèng"], ["zǐ"]]
+    }
+  ]
+}

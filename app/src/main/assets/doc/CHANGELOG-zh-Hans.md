@@ -1,12 +1,28 @@
+******
+
+### 发行历史
+
+******
+
+# v1.0.1
+
+###### 2026/09/01
+
+* `提示` 本版本仅改进文档与配套工程, 拼音转换行为与全部脚本 API 保持不变
+* `优化` 重构 10 种语言的 README: 新增使用方法, 快速上手, 拼音风格与选项速查表, 脚本 API, 快速自检, 常见问题, 权限与安全, 姊妹插件对比及插件接口等章节
+* `优化` 文档生成脚本升级为同族插件统一实现: 支持 `--check` 漂移检测, 跨语言键位与形状对齐校验, 全角符号拦截以及版本对齐校验
+* `优化` 插件中心使用说明 (`plugin_instruction.md`) 纳入同一套多语言 JSON 生成链路, 消除双源维护
+* `优化` 新增 ROADMAP.md 开发路线图, 并与姊妹插件 Pinyin4j 建立双向互链与选型对比
+* `优化` 统一 README 版式与 Gradle 平台版本管理方式
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `新增` Pinyin 插件服务, 插件 ID 为 `pinyin`, 引擎为 `pinyin`
-* `新增` 支持通过 `org.autojs.plugin.PINYIN` 发现并调用插件
-* `新增` 支持 `pinyin.convert(text, options)` 返回二维拼音结果, 并由 AutoJs6 宿主提供 `compact()` 组合方法
-* `新增` 支持 `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)` 和 `pinyin.fromPhrase(phrase)`
-* `新增` 支持 `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` 拼音风格以及 `NORMAL`/`SURNAME`/`PLACE_NAME` 模式
-* `新增` 内置汉字, 词组和分词数据, 支持分词, 多音字, 词组和姓氏拼音处理
-* `新增` 插件信息和使用说明的多语言资源: 西班牙语/法语/俄语/阿拉伯语/日语/韩语/英语/简体中文/香港繁体/台湾繁体
-* `新增` README 与 CHANGELOG 使用 JSON 源文件和 `.python/generate_markdown.py` 生成多语言 Markdown
+* `新增` Pinyin 插件服务: 插件 ID 为 `pinyin`, 由 AutoJs6 通过 `org.autojs.plugin.PINYIN` 自动发现并调用
+* `新增` 拼音转换 API: `pinyin.convert(text, options)` 返回二维候选数组并附带 `compact()` 组合方法, `pinyin.simple(text)` 返回紧凑字符串
+* `新增` 字典查询 API: `pinyin.fromCodePoint(codePoint)` 查询单字读音记录, `pinyin.fromPhrase(phrase)` 查询词组读音
+* `新增` 六种拼音风格 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 与姓氏模式 (`SURNAME`)
+* `新增` 多音字与分词支持: 内置单字, 词组, 分词三份字典及 HMM 模型, 可按需启用 `segment` / `heteronym` / `group` 选项
+* `新增` 多语言资源: 插件信息与使用说明覆盖 10 种语言
+* `新增` README 与 CHANGELOG 由 JSON 源文件与 `.python/generate_markdown.py` 生成多语言 Markdown

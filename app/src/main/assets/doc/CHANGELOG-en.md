@@ -1,12 +1,28 @@
+******
+
+### Release history
+
+******
+
+# v1.0.1
+
+###### 2026/09/01
+
+* `Hint` This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged
+* `Improved` Reworked the README in 10 languages: added sections for usage, quick start, Pinyin style and option reference tables, script API, self check, FAQ, permissions and security, sibling plugin comparison and plugin interface
+* `Improved` Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks
+* `Improved` Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance
+* `Improved` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j
+* `Improved` Standardize the README layout and Gradle platform version management
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `Feature` Added the Pinyin plugin service with plugin ID `pinyin` and engine `pinyin`
-* `Feature` Added host discovery and invocation through `org.autojs.plugin.PINYIN`
-* `Feature` Supported `pinyin.convert(text, options)` returning nested pinyin results, with `compact()` composition provided by the AutoJs6 host
-* `Feature` Supported `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)`, and `pinyin.fromPhrase(phrase)`
-* `Feature` Supported `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` pinyin styles and `NORMAL`/`SURNAME`/`PLACE_NAME` modes
-* `Feature` Added packaged character, phrase, and segmentation data for segmentation, heteronyms, phrases, and surname pinyin handling
-* `Feature` Added localized plugin metadata and usage instructions for Spanish, French, Russian, Arabic, Japanese, Korean, English, Simplified Chinese, Hong Kong Traditional Chinese, and Taiwan Traditional Chinese
-* `Feature` Added JSON sources and `.python/generate_markdown.py` generation for multilingual README and CHANGELOG Markdown files
+* `Added` Pinyin plugin service: plugin ID `pinyin`, automatically discovered and invoked by AutoJs6 via `org.autojs.plugin.PINYIN`
+* `Added` Conversion API: `pinyin.convert(text, options)` returns a 2D candidate array carrying a `compact()` combination method, and `pinyin.simple(text)` returns a compact string
+* `Added` Dictionary lookup API: `pinyin.fromCodePoint(codePoint)` queries the reading record of a single character and `pinyin.fromPhrase(phrase)` queries phrase readings
+* `Added` Six Pinyin styles (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) plus the surname mode (`SURNAME`)
+* `Added` Heteronym and segmentation support: bundled character, phrase and segmentation dictionaries plus an HMM model, with `segment` / `heteronym` / `group` options available on demand
+* `Added` Multilingual resources: plugin info and instructions available in 10 languages
+* `Added` README and CHANGELOG generated as multilingual Markdown from JSON sources via `.python/generate_markdown.py`

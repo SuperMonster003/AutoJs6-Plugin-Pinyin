@@ -1,12 +1,28 @@
+******
+
+### リリース履歴
+
+******
+
+# v1.0.1
+
+###### 2026/09/01
+
+* `ヒント` 本バージョンはドキュメントと関連ツーリングの改善のみで, ピンイン変換の動作とすべてのスクリプト API は変わりません
+* `改善` 10 言語の README を再構成: 使用方法, クイックスタート, ピンインスタイルとオプションの早見表, スクリプト API, セルフチェック, よくある質問, 権限とセキュリティ, 姉妹プラグインの比較, プラグインインターフェースなどの章を追加
+* `改善` ドキュメント生成スクリプトを同系プラグインで統一された実装へ更新: `--check` によるドリフト検出, 言語間のキーと形状の整合検証, 全角記号の拒否, バージョン整合検証をサポート
+* `改善` プラグインセンターの使用説明 (`plugin_instruction.md`) を同じ多言語 JSON 生成パイプラインに統合し, 二重ソースの保守を解消
+* `改善` ROADMAP.md 開発ロードマップを新設し, 姉妹プラグイン Pinyin4j との双方向リンクと選定比較を確立
+* `改善` README のレイアウトと Gradle プラットフォームのバージョン管理方式を統一
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `新機能` プラグイン ID `pinyin`, エンジン `pinyin` の Pinyin プラグインサービスを追加
-* `新機能` `org.autojs.plugin.PINYIN` によるホスト側の検出と呼び出しを追加
-* `新機能` `pinyin.convert(text, options)` が入れ子のピンイン結果を返す機能に対応し, `compact()` 合成は AutoJs6 ホストが提供
-* `新機能` `pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)`, `pinyin.fromPhrase(phrase)` に対応
-* `新機能` `NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` のピンインスタイルと `NORMAL`/`SURNAME`/`PLACE_NAME` モードに対応
-* `新機能` 文字, フレーズ, 分かち書きデータを同梱し, 分かち書き, 多音字, フレーズ, 姓のピンイン処理に対応
-* `新機能` スペイン語, フランス語, ロシア語, アラビア語, 日本語, 韓国語, 英語, 簡体字中国語, 香港繁体字, 台湾繁体字のプラグイン情報と使用説明を追加
-* `新機能` 多言語 README と CHANGELOG Markdown 用の JSON ソースと `.python/generate_markdown.py` 生成を追加
+* `追加` Pinyin プラグインサービス: プラグイン ID は `pinyin` で, AutoJs6 が `org.autojs.plugin.PINYIN` により自動検出して呼び出し
+* `追加` ピンイン変換 API: `pinyin.convert(text, options)` は `compact()` 組み合わせメソッド付きの 2 次元候補配列を返し, `pinyin.simple(text)` はコンパクトな文字列を返却
+* `追加` 辞書照会 API: `pinyin.fromCodePoint(codePoint)` は単漢字の読みレコードを, `pinyin.fromPhrase(phrase)` はフレーズの読みを照会
+* `追加` 6 種類のピンインスタイル (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) と姓氏モード (`SURNAME`)
+* `追加` 多音字と単語分割のサポート: 単漢字, フレーズ, 単語分割の 3 つの辞書と HMM モデルを内蔵し, 必要に応じて `segment` / `heteronym` / `group` オプションを有効化可能
+* `追加` 多言語リソース: プラグイン情報と使用説明が 10 言語をカバー
+* `追加` README と CHANGELOG は JSON ソースファイルと `.python/generate_markdown.py` から多言語 Markdown を生成

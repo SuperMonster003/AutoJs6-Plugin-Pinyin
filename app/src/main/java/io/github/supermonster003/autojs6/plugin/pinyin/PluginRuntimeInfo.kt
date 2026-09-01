@@ -6,22 +6,77 @@ import org.autojs.plugin.common.api.PluginCapabilityKeys
 import org.autojs.plugin.common.api.PluginInfo
 import org.autojs.plugin.pinyin.api.PinyinPluginIds
 
+internal const val REQUIRED_HOST_VERSION = 3923
+internal const val PLUGIN_INSTRUCTION_REFERENCE = "@raw/plugin_instruction"
+
+internal data class PluginRuntimeFields(
+    val name: String,
+    val description: String,
+    val instruction: String,
+    val author: String,
+    val id: String,
+    val engine: String,
+    val variant: String,
+    val versionName: String,
+    val versionCode: Long,
+    val versionDate: String,
+    val supportedAbis: List<String>,
+    val requiredHostVersion: Int,
+)
+
+internal fun pluginRuntimeFields(
+    name: String,
+    description: String,
+    author: String,
+    id: String,
+    engine: String,
+    variant: String,
+    versionName: String,
+    versionCode: Long,
+    versionDate: String,
+): PluginRuntimeFields = PluginRuntimeFields(
+    name = name,
+    description = description,
+    instruction = PLUGIN_INSTRUCTION_REFERENCE,
+    author = author,
+    id = id,
+    engine = engine,
+    variant = variant,
+    versionName = versionName,
+    versionCode = versionCode,
+    versionDate = versionDate,
+    supportedAbis = emptyList(),
+    requiredHostVersion = REQUIRED_HOST_VERSION,
+)
+
 internal fun Context.pluginInfo(name: String, description: String): PluginInfo {
     val appContext = applicationContext
     val packageInfo = appContext.packageManager.getPackageInfo(appContext.packageName, 0)
+    val fields = pluginRuntimeFields(
+        name = name,
+        description = description,
+        author = appContext.stringResource("plugin_author", "SuperMonster003"),
+        id = appContext.stringResource("plugin_id", PinyinPluginIds.ID),
+        engine = appContext.stringResource("plugin_engine", PinyinPluginIds.ENGINE),
+        variant = appContext.stringResource("plugin_variant", PinyinPluginIds.VARIANT_DEFAULT),
+        versionName = packageInfo.versionName ?: "",
+        versionCode = packageInfo.versionCodeCompat(),
+        versionDate = appContext.stringResource("plugin_version_date", ""),
+    )
     return PluginInfo().apply {
-        this.name = name
-        this.description = description
-        author = appContext.stringResource("plugin_author", "SuperMonster003")
-        id = appContext.stringResource("plugin_id", PinyinPluginIds.ID)
-        engine = appContext.stringResource("plugin_engine", PinyinPluginIds.ENGINE)
-        variant = appContext.stringResource("plugin_variant", PinyinPluginIds.VARIANT_DEFAULT)
-        versionName = packageInfo.versionName ?: ""
-        versionCode = packageInfo.versionCodeCompat()
-        versionDate = appContext.stringResource("plugin_version_date", "")
-        supportedAbis = emptyArray()
+        this.name = fields.name
+        this.description = fields.description
+        instruction = fields.instruction
+        author = fields.author
+        id = fields.id
+        engine = fields.engine
+        variant = fields.variant
+        versionName = fields.versionName
+        versionCode = fields.versionCode
+        versionDate = fields.versionDate
+        supportedAbis = fields.supportedAbis.toTypedArray()
         capabilities = android.os.Bundle().apply {
-            putInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION, 3923)
+            putInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION, fields.requiredHostVersion)
         }
     }
 }

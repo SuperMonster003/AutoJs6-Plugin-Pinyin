@@ -1,7 +1,25 @@
 {
   "repo_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin",
+  "repo_slug": "SuperMonster003/AutoJs6-Plugin-Pinyin",
+  "icon_alt": "autojs6-plugin-pinyin-ic-launcher",
+  "license_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/LICENSE",
+  "roadmap_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/ROADMAP.md",
   "docs_pinyin_url": "https://docs.autojs6.com/#/pinyin",
   "autojs6_url": "https://github.com/SuperMonster003/AutoJs6",
-  "pinyin_styles": "NORMAL, TONE, TONE2, TO3NE,\nINITIALS, FIRST_LETTER",
-  "pinyin_modes": "NORMAL, SURNAME, PLACE_NAME, PLACENAME"
+  "hotoo_pinyin_url": "https://github.com/hotoo/pinyin",
+  "jieba_analysis_url": "https://github.com/huaban/jieba-analysis",
+  "pinyin4j_repo_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j",
+  "plugin_application_id": "io.github.supermonster003.autojs6.plugin.pinyin",
+  "plugin_id": "pinyin",
+  "plugin_engine": "pinyin",
+  "plugin_variant": "default",
+  "discovery_action": "org.autojs.plugin.PINYIN",
+  "discovery_category": "pinyin",
+  "wake_action": "org.autojs.plugin.action.WAKE",
+  "binder_interface": "IPinyinPlugin",
+  "required_host_version_code": "3923",
+  "required_host_version_name": "6.7.1 Alpha4",
+  "android_min_sdk": "24",
+  "android_target_sdk": "36",
+  "min_android_version": "7.0"
 }

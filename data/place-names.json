@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "corpusVersion": "2026-09-01",
+  "description": "A deliberately small corpus of Chinese place names whose established readings differ from common per-character defaults.",
+  "sources": {
+    "ccdi-place-name-readings": {
+      "title": "这些地名，您读对了吗？",
+      "publisher": "中央纪委国家监委网站",
+      "url": "https://m.ccdi.gov.cn/content/94/e2/13618.html",
+      "reviewedOn": "2026-09-01"
+    },
+    "moe-luan-reading": {
+      "title": "“Liu”还是“Lu”？教育部权威回应“六安”读音：六（lù）安",
+      "publisher": "中华人民共和国教育部政府门户网站",
+      "url": "https://www.moe.gov.cn/fbh/live/2021/53486/mtbd/202106/t20210602_535146.html",
+      "reviewedOn": "2026-09-01"
+    },
+    "nanjing-place-name-readings": {
+      "title": "南京市地名“卡子门”是否有读音错误？",
+      "publisher": "中共南京市委、南京市人民政府",
+      "url": "https://www.nanjing.gov.cn/zgnjsjb/hdjl/rdwt/202209/t20220901_3687711.html",
+      "reviewedOn": "2026-09-01"
+    },
+    "anhui-place-name-readings": {
+      "title": "新华热评：请为文脉留一音",
+      "publisher": "安徽网信网",
+      "url": "https://www.ahwx.gov.cn/wlcb/wlpl/202105/t20210521_5285071.html",
+      "reviewedOn": "2026-09-01"
+    }
+  },
+  "entries": [
+    {
+      "name": "六安",
+      "pinyin": ["lù", "ān"],
+      "sourceIds": ["moe-luan-reading", "anhui-place-name-readings"]
+    },
+    {
+      "name": "丽水",
+      "pinyin": ["lí", "shuǐ"],
+      "sourceIds": ["ccdi-place-name-readings", "anhui-place-name-readings"]
+    },
+    {
+      "name": "乐清",
+      "pinyin": ["yuè", "qīng"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "歙县",
+      "pinyin": ["shè", "xiàn"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "蚌埠",
+      "pinyin": ["bèng", "bù"],
+      "sourceIds": ["ccdi-place-name-readings", "anhui-place-name-readings"]
+    },
+    {
+      "name": "盱眙",
+      "pinyin": ["xū", "yí"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "栟茶",
+      "pinyin": ["bēn", "chá"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "巴彦淖尔",
+      "pinyin": ["bā", "yàn", "nào", "ěr"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "蔚县",
+      "pinyin": ["yù", "xiàn"],
+      "sourceIds": ["ccdi-place-name-readings", "anhui-place-name-readings"]
+    },
+    {
+      "name": "黄陂",
+      "pinyin": ["huáng", "pí"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "监利",
+      "pinyin": ["jiàn", "lì"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "浚县",
+      "pinyin": ["xùn", "xiàn"],
+      "sourceIds": ["ccdi-place-name-readings"]
+    },
+    {
+      "name": "铅山",
+      "pinyin": ["yán", "shān"],
+      "sourceIds": ["anhui-place-name-readings"]
+    },
+    {
+      "name": "台州",
+      "pinyin": ["tāi", "zhōu"],
+      "sourceIds": ["ccdi-place-name-readings", "nanjing-place-name-readings", "anhui-place-name-readings"]
+    },
+    {
+      "name": "乐亭",
+      "pinyin": ["lào", "tíng"],
+      "sourceIds": ["nanjing-place-name-readings", "anhui-place-name-readings"]
+    }
+  ]
+}

@@ -5,17 +5,29 @@
   "changelog_label_improvement": "개선",
   "changelog_label_dependency": "의존성",
   "$data": {
+    "v1.0.1": {
+      "released_date": "2026/09/01",
+      "hint": [
+        "이 버전은 문서와 관련 도구만 개선하며, 병음 변환 동작과 모든 스크립트 API 는 그대로 유지됩니다"
+      ],
+      "improvement": [
+        "10 개 언어의 README 재구성: 사용 방법, 빠른 시작, 병음 스타일과 옵션 참조 표, 스크립트 API, 자가 점검, 자주 묻는 질문, 권한과 보안, 자매 플러그인 비교, 플러그인 인터페이스 등의 장을 추가",
+        "문서 생성 스크립트를 자매 플러그인들이 공유하는 통합 구현으로 업그레이드: `--check` 드리프트 감지, 언어 간 키와 형태 정합 검증, 전각 기호 차단, 버전 정합 검증 지원",
+        "플러그인 센터 사용 설명 (`plugin_instruction.md`) 을 동일한 다국어 JSON 생성 파이프라인에 통합하여 이중 소스 유지보수를 제거",
+        "ROADMAP.md 개발 로드맵을 추가하고 자매 플러그인 Pinyin4j 와 양방향 상호 링크 및 선택 비교를 구축",
+        "README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일"
+      ]
+    },
     "v1.0.0": {
       "released_date": "2026/07/15",
       "feature": [
-        "플러그인 ID `pinyin`, 엔진 `pinyin` 인 Pinyin 플러그인 서비스를 추가",
-        "`org.autojs.plugin.PINYIN` 을 통한 호스트 발견 및 호출을 추가",
-        "`pinyin.convert(text, options)` 가 중첩된 병음 결과를 반환하도록 지원하고, `compact()` 조합은 AutoJs6 호스트가 제공",
-        "`pinyin.simple(text)`, `pinyin.fromCodePoint(codePoint)`, `pinyin.fromPhrase(phrase)` 를 지원",
-        "`NORMAL`/`TONE`/`TONE2`/`TO3NE`/`INITIALS`/`FIRST_LETTER` 병음 스타일과 `NORMAL`/`SURNAME`/`PLACE_NAME` 모드를 지원",
-        "문자, 구문, 분절 데이터를 포함해 분절, 다중 발음, 구문, 성씨 병음 처리를 지원",
-        "스페인어, 프랑스어, 러시아어, 아랍어, 일본어, 한국어, 영어, 중국어 간체, 홍콩 번체, 대만 번체 플러그인 정보와 사용 설명을 추가",
-        "다국어 README 및 CHANGELOG Markdown 생성을 위한 JSON 소스와 `.python/generate_markdown.py` 를 추가"
+        "Pinyin 플러그인 서비스: 플러그인 ID 는 `pinyin` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN` 을 통해 자동으로 발견하고 호출",
+        "병음 변환 API: `pinyin.convert(text, options)` 는 `compact()` 조합 메서드가 딸린 2차원 후보 배열을 반환하고, `pinyin.simple(text)` 은 간결한 문자열을 반환",
+        "사전 조회 API: `pinyin.fromCodePoint(codePoint)` 는 단일 한자의 발음 기록을, `pinyin.fromPhrase(phrase)` 는 어구 발음을 조회",
+        "여섯 가지 병음 스타일 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 과 성씨 모드 (`SURNAME`)",
+        "다음자와 단어 분할 지원: 단일 한자, 어구, 단어 분할 세 가지 사전과 HMM 모델을 내장하고, 필요에 따라 `segment` / `heteronym` / `group` 옵션 활성화 가능",
+        "다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어 지원",
+        "README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 생성"
       ]
     }
   }

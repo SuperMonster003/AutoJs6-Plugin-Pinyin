@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "lockVersion": "2026-09-01",
+  "upstreams": {
+    "hotoo-pinyin": {
+      "repository": "https://github.com/hotoo/pinyin.git",
+      "commit": "865f10195a25533bb44cda62017d94c5fb9db42e",
+      "versionAtCommit": "3.0.0-alpha-0",
+      "license": "MIT"
+    },
+    "huaban-jieba-analysis": {
+      "repository": "https://github.com/huaban/jieba-analysis.git",
+      "commit": "9c6527fdd9602034ea6267a8a04255a8b0612814",
+      "versionAtCommit": "1.0.2",
+      "license": "Apache-2.0"
+    }
+  },
+  "assets": {
+    "characters": {
+      "path": "app/src/main/assets/dict-chinese-chars.db.gzip",
+      "role": "Chinese character to ordered tone-marked Pinyin candidates",
+      "sha256": "7317f55fb1ca443975898db15ff0775792511df57f4c0466c4fda40f0f1994dc",
+      "size": 299008,
+      "uncompressedSha256": "d1c0fcf8059d78ef6feb30ae58cf1e64032f5e9f1ffd0426a1177a24dfad8b1e",
+      "uncompressedSize": 581632,
+      "source": {
+        "upstream": "hotoo-pinyin",
+        "path": "data/dict-zi.ts",
+        "blobSha256": "fc2e7a1861787896e3e283ef45c6c649649070df928adc8d5f893e0726a875f8"
+      },
+      "database": {
+        "table": "Dict",
+        "rowCount": 41244,
+        "schema": "CREATE TABLE Dict (\n    CodePoint INTEGER PRIMARY KEY,\n    Pinyin TEXT\n)"
+      }
+    },
+    "phrases": {
+      "path": "app/src/main/assets/dict-chinese-phrases.db.gzip",
+      "role": "Phrase slots to ordered tone-marked Pinyin candidates",
+      "sha256": "9c6f2d7a229a291cfd9b0ca517c5b27906b43f8b5b04e7bd8d799f2858458b10",
+      "size": 1286826,
+      "uncompressedSha256": "415c8f3e0d396e8a7f1ceb69e78a2d39c53bf546f23e5f3f28aab96c76250a81",
+      "uncompressedSize": 3227648,
+      "source": {
+        "upstream": "hotoo-pinyin",
+        "path": "data/phrases-dict.ts",
+        "blobSha256": "84233d81099fda74b7e280a6f164550a80a8457039b77eddf19d2a0d4619f313"
+      },
+      "database": {
+        "table": "PhrasesDict",
+        "rowCount": 127820,
+        "schema": "CREATE TABLE PhrasesDict (\n    Word TEXT,\n    Pinyin TEXT,\n    OrderIndex INTEGER\n)"
+      }
+    },
+    "words": {
+      "path": "app/src/main/assets/dict-chinese-words.db.gzip",
+      "role": "Jieba segmentation words, frequencies and parts of speech",
+      "sha256": "5e6df988483cb6402b3860275b71e868d2bdb67d0989c3b86777bd3efce92e32",
+      "size": 4225844,
+      "uncompressedSha256": "cfc4178dacdc998649869426c7d26714a98ba5bd37e40dfc3ec9f73b06cc46c5",
+      "uncompressedSize": 10985472,
+      "source": {
+        "upstream": "huaban-jieba-analysis",
+        "path": "src/main/resources/dict.txt",
+        "blobSha256": "739dfafe7474f68db670f5ea2027abdac15d39e4d66d54f2a4a0ebe1fd629d4e"
+      },
+      "database": {
+        "table": "dictionary",
+        "rowCount": 349045,
+        "schema": "CREATE TABLE dictionary (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    word TEXT NOT NULL,\n    frequency REAL NOT NULL,\n    normalized_freq REAL NOT NULL,\n    part_of_speech TEXT NOT NULL\n)",
+        "metadataMinFreq": -17.218404466377418
+      }
+    },
+    "hmm": {
+      "path": "app/src/main/assets/prob_emit.txt",
+      "role": "Jieba HMM emission probabilities for unknown words",
+      "sha256": "2b53eef46223ef2e55e6c856c9ce1a8b21c3ba06bce049a48d08c846894271a0",
+      "size": 700668,
+      "source": {
+        "upstream": "huaban-jieba-analysis",
+        "commit": "3ec44e7ec983b5a768f42f8b0b736b7f316a1cf7",
+        "path": "src/main/resources/prob_emit.txt",
+        "blobSha256": "c76ec6cf62933a85ef0238f3cb24c70ca9e18f25241183dbe9121eb17884988e"
+      },
+      "lineEndings": "crlf",
+      "lineCount": 35228
+    }
+  }
+}

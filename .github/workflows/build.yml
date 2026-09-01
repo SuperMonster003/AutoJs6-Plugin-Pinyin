@@ -1,0 +1,92 @@
+name: Build integrity
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-build:
+    name: Unit tests and debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Test Python tooling
+        run: |
+          python -m unittest discover -s scripts/release/tests -p "test_*.py"
+          python -m unittest discover -s scripts/dictionaries/tests -p "test_*.py"
+
+      - name: Verify generated dictionary artifacts
+        run: |
+          python scripts/dictionaries/generate_place_names.py --check
+          python scripts/dictionaries/manage_dictionaries.py verify
+          python scripts/dictionaries/verify_polyphone_baseline.py
+
+      - name: Run unit tests and assemble debug APKs
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest --stacktrace
+
+      - name: Verify universal APK
+        run: |
+          python scripts/ci/verify_universal_apk.py app/build/outputs/apk/debug
+          python scripts/ci/analyze_apk_size.py app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload debug and test APKs
+        uses: actions/upload-artifact@v7
+        with:
+          name: debug-test-apks
+          path: app/build/outputs/apk
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+  verify-service:
+    name: Binder round trip
+    needs: verify-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Download debug and test APKs
+        uses: actions/download-artifact@v8
+        with:
+          name: debug-test-apks
+          path: ci-apks
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Verify discovery and Binder conversions
+        uses: reactivecircus/android-emulator-runner@v2.38.0
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          script: sh scripts/ci/verify_binder_round_trip.sh
