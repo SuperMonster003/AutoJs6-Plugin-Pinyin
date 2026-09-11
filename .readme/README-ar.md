@@ -322,7 +322,7 @@ native library: none (pure JVM, all ABIs)
 
 #### v1.0.1
 
-_2026/09/01_
+_2026/09/11_
 
 - `تلميح` يحسن هذا الإصدار الوثائق والأدوات المصاحبة فقط; ويبقى سلوك تحويل بينيين وكل واجهات البرمجة النصية دون تغيير
 - `تحسين` أعيدت هيكلة README بعشر لغات: أضيفت فصول الاستخدام, والبداية السريعة, وجداول مرجعية لأنماط بينيين والخيارات, وواجهة برمجة النصوص, والفحص الذاتي, والأسئلة الشائعة, والأذونات والأمان, ومقارنة المكونين الشقيقين, وواجهة المكون الإضافي
@@ -330,6 +330,7 @@ _2026/09/01_
 - `تحسين` أدرجت تعليمات مركز المكونات الإضافية (`plugin_instruction.md`) في خط إنتاج JSON متعدد اللغات نفسه, بما يزيل صيانة المصدر المزدوج
 - `تحسين` أضيفت خارطة الطريق ROADMAP.md وأنشئت روابط متبادلة ومقارنة اختيار مع المكون الشقيق Pinyin4j
 - `تحسين` توحيد تخطيط README وطريقة إدارة إصدارات منصة Gradle
+- `تحسين` التحقق أثناء البناء لمنع إدخال تبعيات أصلية غير مقصودة, مع تقرير JSON
 
 #### v1.0.0
 
@@ -427,3 +428,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - المكون الشقيق Pinyin4j: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j
 - مكتبة pinyin (مرجع تصميم API): https://github.com/hotoo/pinyin
 - مشروع jieba-analysis: https://github.com/huaban/jieba-analysis
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/16kb.md)

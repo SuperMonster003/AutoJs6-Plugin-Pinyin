@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dépendance",
   "$data": {
     "v1.0.1": {
-      "released_date": "2026/09/01",
+      "released_date": "2026/09/11",
       "hint": [
         "Cette version ne fait qu'améliorer la documentation et l'outillage associé; le comportement de conversion pinyin et toutes les API de script restent inchangés"
       ],
@@ -15,7 +15,8 @@
         "Générateur de documentation mis à niveau vers l'implémentation unifiée partagée entre plugins frères: détection de dérive `--check`, validation des clés et des formes entre langues, rejet des symboles pleine chasse et contrôles d'alignement des versions",
         "Les instructions du centre de plugins (`plugin_instruction.md`) rejoignent la même chaîne de génération JSON multilingue, éliminant la double maintenance des sources",
         "Ajout de la feuille de route ROADMAP.md et mise en place de renvois bidirectionnels et d'un comparatif avec le plugin frère Pinyin4j",
-        "Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle"
+        "Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle",
+        "La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON"
       ]
     },
     "v1.0.0": {

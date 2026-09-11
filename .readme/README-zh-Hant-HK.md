@@ -322,7 +322,7 @@ native library: none (pure JVM, all ABIs)
 
 #### v1.0.1
 
-_2026/09/01_
+_2026/09/11_
 
 - `提示` 本版本僅改進文檔與配套工程, 拼音轉換行為與全部腳本 API 保持不變
 - `優化` 重構 10 種語言的 README: 新增使用方法, 快速上手, 拼音風格與選項速查表, 腳本 API, 快速自檢, 常見問題, 權限與安全, 姊妹外掛對比及外掛接口等章節
@@ -330,6 +330,7 @@ _2026/09/01_
 - `優化` 外掛中心使用說明 (`plugin_instruction.md`) 納入同一套多語言 JSON 生成鏈路, 消除雙源維護
 - `優化` 新增 ROADMAP.md 開發路線圖, 並與姊妹外掛 Pinyin4j 建立雙向互鏈與選型對比
 - `優化` 統一 README 版式與 Gradle 平台版本管理方式
+- `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
 
 #### v1.0.0
 
@@ -427,3 +428,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - 姊妹外掛 Pinyin4j: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j
 - pinyin 庫 (API 設計參考): https://github.com/hotoo/pinyin
 - jieba-analysis 項目: https://github.com/huaban/jieba-analysis
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/16kb.md)

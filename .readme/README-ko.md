@@ -322,7 +322,7 @@ native library: none (pure JVM, all ABIs)
 
 #### v1.0.1
 
-_2026/09/01_
+_2026/09/11_
 
 - `힌트` 이 버전은 문서와 관련 도구만 개선하며, 병음 변환 동작과 모든 스크립트 API 는 그대로 유지됩니다
 - `개선` 10 개 언어의 README 재구성: 사용 방법, 빠른 시작, 병음 스타일과 옵션 참조 표, 스크립트 API, 자가 점검, 자주 묻는 질문, 권한과 보안, 자매 플러그인 비교, 플러그인 인터페이스 등의 장을 추가
@@ -330,6 +330,7 @@ _2026/09/01_
 - `개선` 플러그인 센터 사용 설명 (`plugin_instruction.md`) 을 동일한 다국어 JSON 생성 파이프라인에 통합하여 이중 소스 유지보수를 제거
 - `개선` ROADMAP.md 개발 로드맵을 추가하고 자매 플러그인 Pinyin4j 와 양방향 상호 링크 및 선택 비교를 구축
 - `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
+- `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
 
 #### v1.0.0
 
@@ -427,3 +428,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - 자매 플러그인 Pinyin4j: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j
 - pinyin 라이브러리 (API 설계 참고): https://github.com/hotoo/pinyin
 - jieba-analysis 프로젝트: https://github.com/huaban/jieba-analysis
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/16kb.md)

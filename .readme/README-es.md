@@ -322,7 +322,7 @@ Las capacidades planificadas del plugin y su avance se mantienen como una lista 
 
 #### v1.0.1
 
-_2026/09/01_
+_2026/09/11_
 
 - `Pista` Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
 - `Mejora` Se rehízo el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tablas de referencia de estilos y opciones de pinyin, API de script, comprobación rápida, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
@@ -330,6 +330,7 @@ _2026/09/01_
 - `Mejora` Las instrucciones del centro de plugins (`plugin_instruction.md`) se incorporaron a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas
 - `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin4j
 - `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
+- `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
 
 #### v1.0.0
 
@@ -427,3 +428,6 @@ El código del proyecto está licenciado bajo la [Mozilla Public License 2.0](ht
 - Plugin hermano Pinyin4j: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j
 - Biblioteca pinyin (referencia de diseño de la API): https://github.com/hotoo/pinyin
 - Proyecto jieba-analysis: https://github.com/huaban/jieba-analysis
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/16kb.md)

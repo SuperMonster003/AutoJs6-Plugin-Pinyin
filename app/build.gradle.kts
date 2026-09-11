@@ -1,6 +1,7 @@
 import java.util.Properties
 
 plugins {
+    id("io.github.supermonster003.autojs6-native-alignment")
     id("org.autojs.build.utils")
     id("org.autojs.build.versions")
     id("org.autojs.build.signs")
@@ -96,3 +97,6 @@ tasks {
         options.encoding = "UTF-8"
     }
 }
+
+// Reject accidental native dependencies on every ABI.
+nativeAlignment { expectNoNativeLibraries.set(true) }

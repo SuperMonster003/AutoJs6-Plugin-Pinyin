@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.0.1": {
-      "released_date": "2026/09/01",
+      "released_date": "2026/09/11",
       "hint": [
         "This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged"
       ],
@@ -15,7 +15,8 @@
         "Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks",
         "Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance",
         "Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j",
-        "Standardize the README layout and Gradle platform version management"
+        "Standardize the README layout and Gradle platform version management",
+        "Build verification rejects accidental native dependencies and produces a JSON report"
       ]
     },
     "v1.0.0": {

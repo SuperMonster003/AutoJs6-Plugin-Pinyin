@@ -350,3 +350,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - {{ text_link_pinyin4j_plugin }}: {{ pinyin4j_repo_url }}
 - {{ text_link_hotoo_pinyin }}: {{ hotoo_pinyin_url }}
 - {{ text_link_jieba_analysis }}: {{ jieba_analysis_url }}
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/16kb.md)
