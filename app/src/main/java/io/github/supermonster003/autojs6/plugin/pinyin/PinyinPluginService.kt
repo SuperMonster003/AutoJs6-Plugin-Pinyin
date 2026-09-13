@@ -75,7 +75,7 @@ class PinyinPluginService : Service() {
             return pluginInfo(
                 name = getString(R.string.app_name),
                 description = getString(R.string.plugin_description),
-            )
+            ).apply { supportedAbis = emptyArray() }
         }
 
         override fun convert(text: String?, options: Bundle?): String {

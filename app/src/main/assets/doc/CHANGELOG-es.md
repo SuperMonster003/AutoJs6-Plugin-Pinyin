@@ -6,15 +6,16 @@
 
 # v1.0.1
 
-###### 2026/09/11
+###### 2026/09/13
 
-* `Pista` Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
+* `Aviso` Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
 * `Mejora` Se rehízo el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tablas de referencia de estilos y opciones de pinyin, API de script, comprobación rápida, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
 * `Mejora` El generador de documentación se actualizó a la implementación unificada compartida entre plugins hermanos: detección de desviaciones con `--check`, validación de claves y formas entre idiomas, rechazo de símbolos de ancho completo y comprobaciones de alineación de versiones
 * `Mejora` Las instrucciones del centro de plugins (`plugin_instruction.md`) se incorporaron a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas
 * `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin4j
 * `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
 * `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
+* `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
 
 # v1.0.0
 

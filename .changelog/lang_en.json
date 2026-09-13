@@ -1,12 +1,12 @@
 {
   "changelog_label_hint": "Hint",
-  "changelog_label_feature": "Added",
-  "changelog_label_fix": "Fixed",
-  "changelog_label_improvement": "Improved",
+  "changelog_label_feature": "Feature",
+  "changelog_label_fix": "Fix",
+  "changelog_label_improvement": "Improvement",
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.0.1": {
-      "released_date": "2026/09/11",
+      "released_date": "2026/09/13",
       "hint": [
         "This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged"
       ],
@@ -16,7 +16,8 @@
         "Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance",
         "Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j",
         "Standardize the README layout and Gradle platform version management",
-        "Build verification rejects accidental native dependencies and produces a JSON report"
+        "Build verification rejects accidental native dependencies and produces a JSON report",
+        "Consistent localized resources, explicit plugin activation and validated release preparation"
       ]
     },
     "v1.0.0": {
