@@ -5,8 +5,17 @@
   "changelog_label_improvement": "Mejora",
   "changelog_label_dependency": "Dependencia",
   "$data": {
-    "v1.0.1": {
+    "v1.0.2": {
       "released_date": "2026/09/13",
+      "improvement": [
+        "Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación"
+      ],
+      "fix": [
+        "Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación"
+      ]
+    },
+    "v1.0.1": {
+      "released_date": "2026/09/11",
       "hint": [
         "Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios"
       ],
@@ -16,8 +25,7 @@
         "Las instrucciones del centro de plugins (`plugin_instruction.md`) se incorporaron a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas",
         "Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin4j",
         "Unificar el diseño del README y la gestión de versiones de la plataforma Gradle",
-        "La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON",
-        "Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación"
+        "La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON"
       ]
     },
     "v1.0.0": {
