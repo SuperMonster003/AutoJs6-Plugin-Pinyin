@@ -322,7 +322,7 @@ native library: none (pure JVM, all ABIs)
 
 #### v1.0.1
 
-_2026/09/11_
+_2026/09/13_
 
 - `힌트` 이 버전은 문서와 관련 도구만 개선하며, 병음 변환 동작과 모든 스크립트 API 는 그대로 유지됩니다
 - `개선` 10 개 언어의 README 재구성: 사용 방법, 빠른 시작, 병음 스타일과 옵션 참조 표, 스크립트 API, 자가 점검, 자주 묻는 질문, 권한과 보안, 자매 플러그인 비교, 플러그인 인터페이스 등의 장을 추가
@@ -331,18 +331,19 @@ _2026/09/11_
 - `개선` ROADMAP.md 개발 로드맵을 추가하고 자매 플러그인 Pinyin4j 와 양방향 상호 링크 및 선택 비교를 구축
 - `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
 - `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
+- `개선` 다국어 리소스 통일, 명시적인 플러그인 활성화 및 릴리스 산출물 검증
 
 #### v1.0.0
 
 _2026/07/15_
 
-- `추가` Pinyin 플러그인 서비스: 플러그인 ID 는 `pinyin` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN` 을 통해 자동으로 발견하고 호출
-- `추가` 병음 변환 API: `pinyin.convert(text, options)` 는 `compact()` 조합 메서드가 딸린 2차원 후보 배열을 반환하고, `pinyin.simple(text)` 은 간결한 문자열을 반환
-- `추가` 사전 조회 API: `pinyin.fromCodePoint(codePoint)` 는 단일 한자의 발음 기록을, `pinyin.fromPhrase(phrase)` 는 어구 발음을 조회
-- `추가` 여섯 가지 병음 스타일 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 과 성씨 모드 (`SURNAME`)
-- `추가` 다음자와 단어 분할 지원: 단일 한자, 어구, 단어 분할 세 가지 사전과 HMM 모델을 내장하고, 필요에 따라 `segment` / `heteronym` / `group` 옵션 활성화 가능
-- `추가` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어 지원
-- `추가` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 생성
+- `기능` Pinyin 플러그인 서비스: 플러그인 ID 는 `pinyin` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN` 을 통해 자동으로 발견하고 호출
+- `기능` 병음 변환 API: `pinyin.convert(text, options)` 는 `compact()` 조합 메서드가 딸린 2차원 후보 배열을 반환하고, `pinyin.simple(text)` 은 간결한 문자열을 반환
+- `기능` 사전 조회 API: `pinyin.fromCodePoint(codePoint)` 는 단일 한자의 발음 기록을, `pinyin.fromPhrase(phrase)` 는 어구 발음을 조회
+- `기능` 여섯 가지 병음 스타일 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 과 성씨 모드 (`SURNAME`)
+- `기능` 다음자와 단어 분할 지원: 단일 한자, 어구, 단어 분할 세 가지 사전과 HMM 모델을 내장하고, 필요에 따라 `segment` / `heteronym` / `group` 옵션 활성화 가능
+- `기능` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어 지원
+- `기능` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 생성
 
 ##### 더 많은 릴리스 기록은 다음을 참고
 

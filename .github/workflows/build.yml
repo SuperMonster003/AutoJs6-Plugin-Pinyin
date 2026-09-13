@@ -17,6 +17,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Java
         uses: actions/setup-java@v6
@@ -29,6 +32,12 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: "3.13"
+
+      - name: Verify repository and documentation tooling
+        run: |
+          python .python/check_repository.py
+          python .python/generate_markdown.py --check
+          python -m unittest discover -s .python -p 'test_*.py'
 
       - name: Test Python tooling
         run: |
@@ -69,6 +78,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Download debug and test APKs
         uses: actions/download-artifact@v8
