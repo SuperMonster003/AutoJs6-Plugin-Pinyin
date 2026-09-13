@@ -4,9 +4,16 @@
 
 ******
 
-# v1.0.1
+# v1.0.2
 
 ###### 2026/09/13
+
+* `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
+* `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
+
+# v1.0.1
+
+###### 2026/09/11
 
 * `Aviso` Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
 * `Mejora` Se rehízo el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tablas de referencia de estilos y opciones de pinyin, API de script, comprobación rápida, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
@@ -15,7 +22,6 @@
 * `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin4j
 * `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
 * `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
-* `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
 
 # v1.0.0
 

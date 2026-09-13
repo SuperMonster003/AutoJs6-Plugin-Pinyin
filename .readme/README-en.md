@@ -320,9 +320,16 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 ******
 
-#### v1.0.1
+#### v1.0.2
 
 _2026/09/13_
+
+- `Fix` Keep the plugin version date in English regardless of the build machine locale
+- `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
+
+#### v1.0.1
+
+_2026/09/11_
 
 - `Hint` This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged
 - `Improvement` Reworked the README in 10 languages: added sections for usage, quick start, Pinyin style and option reference tables, script API, self check, FAQ, permissions and security, sibling plugin comparison and plugin interface
@@ -331,7 +338,6 @@ _2026/09/13_
 - `Improvement` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j
 - `Improvement` Standardize the README layout and Gradle platform version management
 - `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
-- `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
 
 #### v1.0.0
 
@@ -387,7 +393,7 @@ Verify that the multilingual documentation sources and generated artifacts are i
 py .python\generate_markdown.py --check
 ```
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.0.1.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.0.2.
 
 ******
 
