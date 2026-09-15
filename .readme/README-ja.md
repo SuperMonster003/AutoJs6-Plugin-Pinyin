@@ -320,6 +320,12 @@ native library: none (pure JVM, all ABIs)
 
 ******
 
+#### v1.0.3
+
+_2026/09/15_
+
+- `改善` compileSdk と targetSdk を 37 (Android 17) に引き上げ, プラグインの動作は新しいターゲットの影響を受けない
+
 #### v1.0.2
 
 _2026/09/13_
@@ -338,18 +344,6 @@ _2026/09/11_
 - `改善` ROADMAP.md 開発ロードマップを新設し, 姉妹プラグイン Pinyin4j との双方向リンクと選定比較を確立
 - `改善` README のレイアウトと Gradle プラットフォームのバージョン管理方式を統一
 - `改善` 意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `機能` Pinyin プラグインサービス: プラグイン ID は `pinyin` で, AutoJs6 が `org.autojs.plugin.PINYIN` により自動検出して呼び出し
-- `機能` ピンイン変換 API: `pinyin.convert(text, options)` は `compact()` 組み合わせメソッド付きの 2 次元候補配列を返し, `pinyin.simple(text)` はコンパクトな文字列を返却
-- `機能` 辞書照会 API: `pinyin.fromCodePoint(codePoint)` は単漢字の読みレコードを, `pinyin.fromPhrase(phrase)` はフレーズの読みを照会
-- `機能` 6 種類のピンインスタイル (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) と姓氏モード (`SURNAME`)
-- `機能` 多音字と単語分割のサポート: 単漢字, フレーズ, 単語分割の 3 つの辞書と HMM モデルを内蔵し, 必要に応じて `segment` / `heteronym` / `group` オプションを有効化可能
-- `機能` 多言語リソース: プラグイン情報と使用説明が 10 言語をカバー
-- `機能` README と CHANGELOG は JSON ソースファイルと `.python/generate_markdown.py` から多言語 Markdown を生成
 
 ##### その他のリリース履歴は以下を参照
 
@@ -393,7 +387,7 @@ py scripts\release\prepare_release.py
 py .python\generate_markdown.py --check
 ```
 
-ビルドパラメータは `version.properties` に集約されています: 最小 SDK 24 (Android 7.0), ターゲット SDK 36, 現在のバージョン 1.0.2.
+ビルドパラメータは `version.properties` に集約されています: 最小 SDK 24 (Android 7.0), ターゲット SDK 37, 現在のバージョン 1.0.3.
 
 ******
 

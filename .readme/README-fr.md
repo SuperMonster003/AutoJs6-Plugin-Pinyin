@@ -320,6 +320,12 @@ Les capacités prévues du plugin et leur avancement sont maintenus sous forme d
 
 ******
 
+#### v1.0.3
+
+_2026/09/15_
+
+- `Amélioration` compileSdk et targetSdk passent à 37 (Android 17) ; le comportement du plugin ne dépend pas de la nouvelle cible
+
 #### v1.0.2
 
 _2026/09/13_
@@ -338,18 +344,6 @@ _2026/09/11_
 - `Amélioration` Ajout de la feuille de route ROADMAP.md et mise en place de renvois bidirectionnels et d'un comparatif avec le plugin frère Pinyin4j
 - `Amélioration` Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle
 - `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `Fonctionnalité` Service du plugin Pinyin: ID de plugin `pinyin`, découvert et invoqué automatiquement par AutoJs6 via `org.autojs.plugin.PINYIN`
-- `Fonctionnalité` API de conversion: `pinyin.convert(text, options)` renvoie un tableau 2D de candidats portant une méthode de combinaison `compact()`, et `pinyin.simple(text)` renvoie une chaîne compacte
-- `Fonctionnalité` API de consultation des dictionnaires: `pinyin.fromCodePoint(codePoint)` interroge l'entrée de lecture d'un caractère et `pinyin.fromPhrase(phrase)` interroge les lectures des mots
-- `Fonctionnalité` Six styles de pinyin (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) plus le mode nom de famille (`SURNAME`)
-- `Fonctionnalité` Prise en charge des polyphones et de la segmentation: dictionnaires de caractères, de mots et de segmentation plus un modèle HMM embarqués, avec les options `segment` / `heteronym` / `group` disponibles à la demande
-- `Fonctionnalité` Ressources multilingues: métadonnées du plugin et instructions disponibles en 10 langues
-- `Fonctionnalité` README et CHANGELOG générés en Markdown multilingue depuis les sources JSON via `.python/generate_markdown.py`
 
 ##### Pour plus d'historique des versions
 
@@ -393,7 +387,7 @@ Vérifier que les sources de la documentation multilingue et les fichiers géné
 py .python\generate_markdown.py --check
 ```
 
-Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 36, version actuelle 1.0.2.
+Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.0.3.
 
 ******
 

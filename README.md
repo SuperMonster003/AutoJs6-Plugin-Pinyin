@@ -320,6 +320,12 @@ native library: none (pure JVM, all ABIs)
 
 ******
 
+#### v1.0.3
+
+_2026/09/15_
+
+- `优化` 将 compileSdk 与 targetSdk 提升到 37 (Android 17), 插件行为不受新目标版本影响
+
 #### v1.0.2
 
 _2026/09/13_
@@ -338,18 +344,6 @@ _2026/09/11_
 - `优化` 新增 ROADMAP.md 开发路线图, 并与姊妹插件 Pinyin4j 建立双向互链与选型对比
 - `优化` 统一 README 版式与 Gradle 平台版本管理方式
 - `优化` 构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `新增` Pinyin 插件服务: 插件 ID 为 `pinyin`, 由 AutoJs6 通过 `org.autojs.plugin.PINYIN` 自动发现并调用
-- `新增` 拼音转换 API: `pinyin.convert(text, options)` 返回二维候选数组并附带 `compact()` 组合方法, `pinyin.simple(text)` 返回紧凑字符串
-- `新增` 字典查询 API: `pinyin.fromCodePoint(codePoint)` 查询单字读音记录, `pinyin.fromPhrase(phrase)` 查询词组读音
-- `新增` 六种拼音风格 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 与姓氏模式 (`SURNAME`)
-- `新增` 多音字与分词支持: 内置单字, 词组, 分词三份字典及 HMM 模型, 可按需启用 `segment` / `heteronym` / `group` 选项
-- `新增` 多语言资源: 插件信息与使用说明覆盖 10 种语言
-- `新增` README 与 CHANGELOG 由 JSON 源文件与 `.python/generate_markdown.py` 生成多语言 Markdown
 
 ##### 更多发行历史可参阅
 
@@ -393,7 +387,7 @@ py scripts\release\prepare_release.py
 py .python\generate_markdown.py --check
 ```
 
-构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 36, 当前版本 1.0.2.
+构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 37, 当前版本 1.0.3.
 
 ******
 
