@@ -20,6 +20,6 @@
   "required_host_version_code": "3923",
   "required_host_version_name": "6.7.1 Alpha4",
   "android_min_sdk": "24",
-  "android_target_sdk": "36",
+  "android_target_sdk": "37",
   "min_android_version": "7.0"
 }

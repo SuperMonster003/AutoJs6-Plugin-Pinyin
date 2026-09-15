@@ -320,6 +320,12 @@ native library: none (pure JVM, all ABIs)
 
 ******
 
+#### v1.0.3
+
+_2026/09/15_
+
+- `개선` compileSdk 와 targetSdk 를 37 (Android 17) 로 올리며, 플러그인 동작은 새 대상 버전의 영향을 받지 않음
+
 #### v1.0.2
 
 _2026/09/13_
@@ -338,18 +344,6 @@ _2026/09/11_
 - `개선` ROADMAP.md 개발 로드맵을 추가하고 자매 플러그인 Pinyin4j 와 양방향 상호 링크 및 선택 비교를 구축
 - `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
 - `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `기능` Pinyin 플러그인 서비스: 플러그인 ID 는 `pinyin` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN` 을 통해 자동으로 발견하고 호출
-- `기능` 병음 변환 API: `pinyin.convert(text, options)` 는 `compact()` 조합 메서드가 딸린 2차원 후보 배열을 반환하고, `pinyin.simple(text)` 은 간결한 문자열을 반환
-- `기능` 사전 조회 API: `pinyin.fromCodePoint(codePoint)` 는 단일 한자의 발음 기록을, `pinyin.fromPhrase(phrase)` 는 어구 발음을 조회
-- `기능` 여섯 가지 병음 스타일 (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) 과 성씨 모드 (`SURNAME`)
-- `기능` 다음자와 단어 분할 지원: 단일 한자, 어구, 단어 분할 세 가지 사전과 HMM 모델을 내장하고, 필요에 따라 `segment` / `heteronym` / `group` 옵션 활성화 가능
-- `기능` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어 지원
-- `기능` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 생성
 
 ##### 더 많은 릴리스 기록은 다음을 참고
 
@@ -393,7 +387,7 @@ py scripts\release\prepare_release.py
 py .python\generate_markdown.py --check
 ```
 
-빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 36, 현재 버전 1.0.2.
+빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 37, 현재 버전 1.0.3.
 
 ******
 

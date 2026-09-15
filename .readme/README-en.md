@@ -320,6 +320,12 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 ******
 
+#### v1.0.3
+
+_2026/09/15_
+
+- `Improvement` Raise compileSdk and targetSdk to 37 (Android 17); the plugin's behavior does not depend on the new target
+
 #### v1.0.2
 
 _2026/09/13_
@@ -338,18 +344,6 @@ _2026/09/11_
 - `Improvement` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j
 - `Improvement` Standardize the README layout and Gradle platform version management
 - `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `Feature` Pinyin plugin service: plugin ID `pinyin`, automatically discovered and invoked by AutoJs6 via `org.autojs.plugin.PINYIN`
-- `Feature` Conversion API: `pinyin.convert(text, options)` returns a 2D candidate array carrying a `compact()` combination method, and `pinyin.simple(text)` returns a compact string
-- `Feature` Dictionary lookup API: `pinyin.fromCodePoint(codePoint)` queries the reading record of a single character and `pinyin.fromPhrase(phrase)` queries phrase readings
-- `Feature` Six Pinyin styles (`NORMAL` / `TONE` / `TONE2` / `TO3NE` / `INITIALS` / `FIRST_LETTER`) plus the surname mode (`SURNAME`)
-- `Feature` Heteronym and segmentation support: bundled character, phrase and segmentation dictionaries plus an HMM model, with `segment` / `heteronym` / `group` options available on demand
-- `Feature` Multilingual resources: plugin info and instructions available in 10 languages
-- `Feature` README and CHANGELOG generated as multilingual Markdown from JSON sources via `.python/generate_markdown.py`
 
 ##### For more release history, refer to
 
@@ -393,7 +387,7 @@ Verify that the multilingual documentation sources and generated artifacts are i
 py .python\generate_markdown.py --check
 ```
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.0.2.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.0.3.
 
 ******
 
