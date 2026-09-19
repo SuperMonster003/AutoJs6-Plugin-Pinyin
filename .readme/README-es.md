@@ -322,8 +322,9 @@ Las capacidades planificadas del plugin y su avance se mantienen como una lista 
 
 #### v1.0.3
 
-_2026/09/15_
+_2026/09/19_
 
+- `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
 
 #### v1.0.2
