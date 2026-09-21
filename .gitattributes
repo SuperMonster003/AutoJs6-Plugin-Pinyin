@@ -1,0 +1,2 @@
+# The locked upstream HMM dictionary includes CRLF in its byte-level digest.
+/app/src/main/assets/prob_emit.txt text eol=crlf
