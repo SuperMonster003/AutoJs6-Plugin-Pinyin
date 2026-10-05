@@ -322,10 +322,11 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 #### v1.0.3
 
-_2026/09/19_
+_2026/10/05_
 
 - `Fix` SDK XML v4 parsing warnings with AGP 9.1 and APK native alignment checks incorrectly triggered by JVM unit-test assembly tasks, using shared build plugins 1.8.3
 - `Improvement` Raise compileSdk and targetSdk to 37 (Android 17); the plugin's behavior does not depend on the new target
+- `Improvement` Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices
 
 #### v1.0.2
 
