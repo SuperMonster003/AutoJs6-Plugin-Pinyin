@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
+import re
+import shutil
 import tempfile
 import unittest
+import uuid
 import zipfile
 from pathlib import Path
 
@@ -16,6 +20,49 @@ from scripts.release.prepare_release import (
     sha256,
     signer_digest_from_output,
 )
+
+
+def dacl_entries(path: Path) -> tuple[str, list[str]]:
+    """(control flags, ACE strings) of the Windows DACL of path, e.g. ("AI", ["A;ID;FA;;;SY", ...])."""
+    import ctypes
+    from ctypes import wintypes
+
+    advapi32 = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    get = advapi32.GetNamedSecurityInfoW
+    get.argtypes = (wintypes.LPCWSTR, ctypes.c_int, wintypes.DWORD) + (ctypes.c_void_p,) * 4 + (
+        ctypes.POINTER(ctypes.c_void_p),
+    )
+    get.restype = wintypes.DWORD
+    convert = advapi32.ConvertSecurityDescriptorToStringSecurityDescriptorW
+    convert.argtypes = (
+        ctypes.c_void_p, wintypes.DWORD, wintypes.DWORD, ctypes.POINTER(wintypes.LPWSTR), ctypes.c_void_p,
+    )
+    convert.restype = wintypes.BOOL
+    kernel32.LocalFree.argtypes = (ctypes.c_void_p,)
+    descriptor, text = ctypes.c_void_p(), wintypes.LPWSTR()
+    error = get(str(path), 1, 4, None, None, None, None, ctypes.byref(descriptor))  # SE_FILE_OBJECT, DACL only
+    if error:
+        raise OSError(None, ctypes.FormatError(error), str(path), error)
+    try:
+        if not convert(descriptor, 1, 4, ctypes.byref(text), None):  # SDDL_REVISION_1, DACL only
+            raise ctypes.WinError(ctypes.get_last_error())
+        flags, entries = re.fullmatch(r"D:([A-Z]*)((?:\([^()]*\))*)", text.value).groups()
+    finally:
+        kernel32.LocalFree(ctypes.cast(text, ctypes.c_void_p))
+        kernel32.LocalFree(descriptor)
+    return flags, re.findall(r"\(([^()]*)\)", entries)
+
+
+def mkdtemp_is_restricted() -> bool:
+    """Whether tempfile.mkdtemp() gives a new directory a protected DACL (Windows since Python 3.12.4 and 3.13)."""
+    if os.name != "nt":
+        return False
+    path = tempfile.mkdtemp()
+    try:
+        return "P" in dacl_entries(path)[0]
+    finally:
+        os.rmdir(path)
 
 
 class PrepareReleaseTest(unittest.TestCase):
@@ -185,6 +232,32 @@ class PrepareReleaseTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ReleaseError, "must be a child"):
             create_bundle(self.context, record, self.root / "outside", signer_digest=None)
+
+    @unittest.skipUnless(
+        mkdtemp_is_restricted(),
+        "tempfile.mkdtemp() does not restrict new directories here",
+    )
+    def test_bundle_has_the_access_rights_of_a_plain_directory(self) -> None:
+        # The bundle is staged with mkdtemp(), which used to leave only SYSTEM, Administrators and OWNER RIGHTS on it.
+        self.create_fake_apk(self.input_dir / "app-release.apk")
+        record, _ = collect_record(self.input_dir, self.context, self.manifest_reader)
+        project = Path(tempfile.gettempdir()) / f"autojs6-release-acl-{uuid.uuid4().hex}"
+        shutil.copytree(self.root, project, ignore=shutil.ignore_patterns("input"))
+        self.addCleanup(shutil.rmtree, project)
+        reference = project / "build" / "release" / "plain"
+        reference.mkdir(parents=True)
+        (reference / "plain.apk").write_bytes(b"")
+
+        output = create_bundle(
+            load_release_context(project),
+            record,
+            project / "build" / "release" / "v1.2.3",
+            signer_digest=None,
+        )
+        self.assertNotIn("P", dacl_entries(output)[0], "the DACL is still protected from inheritance")
+        self.assertEqual(dacl_entries(reference)[1], dacl_entries(output)[1])
+        for item in output.iterdir():
+            self.assertEqual(dacl_entries(reference / "plain.apk")[1], dacl_entries(item)[1], item.name)
 
     def test_apksigner_digest_parser_supports_legacy_and_scheme_labels(self) -> None:
         digest = "31a681fcfffb3e428420cae280ded89292b12a3b0f59e19b7a73e32a8ae4c213"
