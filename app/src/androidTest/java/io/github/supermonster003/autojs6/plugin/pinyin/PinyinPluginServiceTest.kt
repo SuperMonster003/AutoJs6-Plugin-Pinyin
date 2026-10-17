@@ -5,11 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageInfo
+import android.app.ActivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Process
+import android.os.SystemClock
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.huaban.analysis.jieba.CharsDictionaryDatabase
+import com.huaban.analysis.jieba.PhrasesDictionaryDatabase
+import com.huaban.analysis.jieba.WordDictionaryDatabase
 import org.autojs.plugin.common.api.PluginCapabilityKeys
 import org.autojs.plugin.pinyin.api.IPinyinPlugin
 import org.autojs.plugin.pinyin.api.PinyinOptionKeys
@@ -19,6 +25,8 @@ import org.autojs.plugin.pinyin.api.PinyinPluginCapabilityKeys
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNotSame
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -145,6 +153,54 @@ class PinyinPluginServiceTest {
                 )
             }
         }
+    }
+
+    @Test
+    fun databaseConnectionsSurviveServiceRecreationAndRepeatedCalls() {
+        val characters = CharsDictionaryDatabase.getInstance(context.applicationContext).database
+        val phrases = PhrasesDictionaryDatabase.getInstance(context.applicationContext).database
+        val words = WordDictionaryDatabase.getInstance(context.applicationContext).database
+        val processId = Process.myPid()
+        var previousBinder: IBinder? = null
+        repeat(6) { lifecycle ->
+            withBoundPlugin { plugin ->
+                assertNotSame("Service must be recreated for lifecycle $lifecycle", previousBinder, plugin.asBinder())
+                previousBinder = plugin.asBinder()
+                repeat(4) { call ->
+                    val label = "lifecycle=$lifecycle call=$call"
+                    assertEquals(label, "[[\"bei\"],[\"jing\"],[\"shang\"],[\"hai\"]]", plugin.convert("北京上海", options(style = STYLE_NORMAL)))
+                    assertEquals(label, "beijingshanghai", plugin.simple("北京上海", false, false))
+                    assertEquals(label, "zhōng,zhòng", plugin.fromCodePoint("中".codePointAt(0)))
+                    assertEquals(label, "[[\"chóng\"],[\"qìng\"]]", plugin.fromPhrase("重庆"))
+                    assertEquals(label, "yinyuezhongyao", plugin.simple("音乐重要", false, true))
+                }
+            }
+            awaitServiceStopped()
+            assertEquals("The test must not restart the plugin process", processId, Process.myPid())
+            assertTrue("Character database closed after lifecycle $lifecycle", characters.isOpen)
+            assertTrue("Phrase database closed after lifecycle $lifecycle", phrases.isOpen)
+            assertTrue("Word database closed after lifecycle $lifecycle", words.isOpen)
+            assertSame(characters, CharsDictionaryDatabase.getInstance(context.applicationContext).database)
+            assertSame(phrases, PhrasesDictionaryDatabase.getInstance(context.applicationContext).database)
+            assertSame(words, WordDictionaryDatabase.getInstance(context.applicationContext).database)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun awaitServiceStopped() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val deadline = SystemClock.elapsedRealtime() + 10_000
+        while (SystemClock.elapsedRealtime() < deadline) {
+            instrumentation.waitForIdleSync()
+            if (manager.getRunningServices(Int.MAX_VALUE).none { it.service.className == PinyinPluginService::class.java.name }) {
+                // Drain onDestroy after the ActivityManager removes its service record.
+                instrumentation.waitForIdleSync()
+                return
+            }
+            SystemClock.sleep(25)
+        }
+        throw AssertionError("Pinyin service is still bound; cannot verify a real recreation")
     }
 
     private fun assertStyleMatrix(plugin: IPinyinPlugin) {

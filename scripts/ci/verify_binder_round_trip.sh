@@ -22,4 +22,4 @@ output="$(adb shell am instrument -w -r \
   -e class io.github.supermonster003.autojs6.plugin.pinyin.PinyinPluginServiceTest \
   "${test_package}/androidx.test.runner.AndroidJUnitRunner")"
 printf '%s\n' "${output}"
-printf '%s\n' "${output}" | grep -F "OK (2 tests)"
+printf '%s\n' "${output}" | grep -F "OK (3 tests)"
