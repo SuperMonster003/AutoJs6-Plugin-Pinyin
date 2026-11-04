@@ -320,13 +320,18 @@ Las capacidades planificadas del plugin y su avance se mantienen como una lista 
 
 ******
 
+#### v1.0.4
+
+_2026/11/04_
+
+- `Mejora` Los iconos de información de la aplicación de Android comparten las imágenes y los fondos claros y oscuros de Icon Studio, conservando las imágenes transparentes del centro de plugins y las opciones del lanzador
+
 #### v1.0.3
 
-_2026/10/05_
+_2026/09/19_
 
 - `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
-- `Mejora` Los iconos de información de la aplicación de Android comparten las imágenes y los fondos claros y oscuros de Icon Studio, conservando las imágenes transparentes del centro de plugins y las opciones del lanzador
 
 #### v1.0.2
 
@@ -334,18 +339,6 @@ _2026/09/13_
 
 - `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
 - `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
-
-#### v1.0.1
-
-_2026/09/11_
-
-- `Aviso` Esta versión solo mejora la documentación y las herramientas de apoyo; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
-- `Mejora` Se rehízo el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tablas de referencia de estilos y opciones de pinyin, API de script, comprobación rápida, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
-- `Mejora` El generador de documentación se actualizó a la implementación unificada compartida entre plugins hermanos: detección de desviaciones con `--check`, validación de claves y formas entre idiomas, rechazo de símbolos de ancho completo y comprobaciones de alineación de versiones
-- `Mejora` Las instrucciones del centro de plugins (`plugin_instruction.md`) se incorporaron a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas
-- `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin4j
-- `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
-- `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
 
 ##### Para más historial de versiones
 
@@ -389,7 +382,7 @@ Comprobar que las fuentes de la documentación multilingüe y los archivos gener
 py .python\generate_markdown.py --check
 ```
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.0.3.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.0.4.
 
 ******
 

@@ -320,13 +320,18 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 ******
 
+#### v1.0.4
+
+_2026/11/04_
+
+- `Improvement` Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices
+
 #### v1.0.3
 
-_2026/10/05_
+_2026/09/19_
 
 - `Fix` SDK XML v4 parsing warnings with AGP 9.1 and APK native alignment checks incorrectly triggered by JVM unit-test assembly tasks, using shared build plugins 1.8.3
 - `Improvement` Raise compileSdk and targetSdk to 37 (Android 17); the plugin's behavior does not depend on the new target
-- `Improvement` Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices
 
 #### v1.0.2
 
@@ -334,18 +339,6 @@ _2026/09/13_
 
 - `Fix` Keep the plugin version date in English regardless of the build machine locale
 - `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
-
-#### v1.0.1
-
-_2026/09/11_
-
-- `Hint` This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged
-- `Improvement` Reworked the README in 10 languages: added sections for usage, quick start, Pinyin style and option reference tables, script API, self check, FAQ, permissions and security, sibling plugin comparison and plugin interface
-- `Improvement` Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks
-- `Improvement` Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance
-- `Improvement` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin4j
-- `Improvement` Standardize the README layout and Gradle platform version management
-- `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
 
 ##### For more release history, refer to
 
@@ -389,7 +382,7 @@ Verify that the multilingual documentation sources and generated artifacts are i
 py .python\generate_markdown.py --check
 ```
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.0.3.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.0.4.
 
 ******
 
