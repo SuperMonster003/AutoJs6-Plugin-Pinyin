@@ -322,7 +322,7 @@ Las capacidades planificadas del plugin y su avance se mantienen como una lista 
 
 #### v1.0.5
 
-_2026/11/17_
+_2026/11/18_
 
 - `Mejora` Fondo de color del icono del plugin eliminado, se conserva la figura "拼" original y su color sigue ahora los temas claro y oscuro
 

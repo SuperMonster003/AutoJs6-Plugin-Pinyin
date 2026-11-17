@@ -6,7 +6,7 @@
   "changelog_label_dependency": "依赖",
   "$data": {
     "v1.0.5": {
-      "released_date": "2026/11/17",
+      "released_date": "2026/11/18",
       "improvement": [
         "插件图标去掉彩色背景, 保留原有的 \"拼\" 字图案, 图案颜色跟随亮色与暗色主题"
       ]

@@ -6,7 +6,7 @@
 
 # v1.0.5
 
-###### 2026/11/17
+###### 2026/11/18
 
 * `Mejora` Fondo de color del icono del plugin eliminado, se conserva la figura "拼" original y su color sigue ahora los temas claro y oscuro
 

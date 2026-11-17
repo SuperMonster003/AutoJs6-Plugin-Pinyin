@@ -322,7 +322,7 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 #### v1.0.5
 
-_2026/11/17_
+_2026/11/18_
 
 - `Improvement` Removed the colored background of the plugin icon and kept its original "拼" glyph, which now follows the light and dark themes
 

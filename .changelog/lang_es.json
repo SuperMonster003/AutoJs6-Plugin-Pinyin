@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependencia",
   "$data": {
     "v1.0.5": {
-      "released_date": "2026/11/17",
+      "released_date": "2026/11/18",
       "improvement": [
         "Fondo de color del icono del plugin eliminado, se conserva la figura \"拼\" original y su color sigue ahora los temas claro y oscuro"
       ]
