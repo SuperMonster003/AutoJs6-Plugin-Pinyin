@@ -4,6 +4,12 @@
 
 ******
 
+# v1.0.5
+
+###### 2026/11/17
+
+* `Improvement` Removed the colored background of the plugin icon and kept its original "拼" glyph, which now follows the light and dark themes
+
 # v1.0.4
 
 ###### 2026/11/04

@@ -320,6 +320,12 @@ native library: none (pure JVM, all ABIs)
 
 ******
 
+#### v1.0.5
+
+_2026/11/17_
+
+- `優化` 外掛程式圖示移除彩色背景, 保留原有的 "拼" 字圖案, 圖案顏色會隨淺色與深色主題變化
+
 #### v1.0.4
 
 _2026/11/04_
@@ -332,13 +338,6 @@ _2026/09/19_
 
 - `修復` AGP 9.1 建置時的 SDK XML v4 解析警告及 JVM 單元測試組裝工作誤觸發 APK 原生程式庫對齊檢查的問題 (共用建置外掛 1.8.3)
 - `優化` 將 compileSdk 與 targetSdk 提升到 37 (Android 17), 外掛程式行為不受新目標版本影響
-
-#### v1.0.2
-
-_2026/09/13_
-
-- `修復` 外掛版本日期固定使用英文, 不隨建置機器的語言變化
-- `優化` 統一多語言資源, 明確外掛啟用契約並驗證發行產物
 
 ##### 更多發行歷史可參閱
 
@@ -382,7 +381,7 @@ py scripts\release\prepare_release.py
 py .python\generate_markdown.py --check
 ```
 
-建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 37, 目前版本 1.0.4.
+建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 37, 目前版本 1.0.5.
 
 ******
 

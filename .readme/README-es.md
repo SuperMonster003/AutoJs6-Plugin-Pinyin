@@ -320,6 +320,12 @@ Las capacidades planificadas del plugin y su avance se mantienen como una lista 
 
 ******
 
+#### v1.0.5
+
+_2026/11/17_
+
+- `Mejora` Fondo de color del icono del plugin eliminado, se conserva la figura "拼" original y su color sigue ahora los temas claro y oscuro
+
 #### v1.0.4
 
 _2026/11/04_
@@ -332,13 +338,6 @@ _2026/09/19_
 
 - `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
-
-#### v1.0.2
-
-_2026/09/13_
-
-- `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
-- `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
 
 ##### Para más historial de versiones
 
@@ -382,7 +381,7 @@ Comprobar que las fuentes de la documentación multilingüe y los archivos gener
 py .python\generate_markdown.py --check
 ```
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.0.4.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.0.5.
 
 ******
 

@@ -320,6 +320,12 @@ The plugin capability plan and its progress are maintained as a checkable list i
 
 ******
 
+#### v1.0.5
+
+_2026/11/17_
+
+- `Improvement` Removed the colored background of the plugin icon and kept its original "拼" glyph, which now follows the light and dark themes
+
 #### v1.0.4
 
 _2026/11/04_
@@ -332,13 +338,6 @@ _2026/09/19_
 
 - `Fix` SDK XML v4 parsing warnings with AGP 9.1 and APK native alignment checks incorrectly triggered by JVM unit-test assembly tasks, using shared build plugins 1.8.3
 - `Improvement` Raise compileSdk and targetSdk to 37 (Android 17); the plugin's behavior does not depend on the new target
-
-#### v1.0.2
-
-_2026/09/13_
-
-- `Fix` Keep the plugin version date in English regardless of the build machine locale
-- `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
 
 ##### For more release history, refer to
 
@@ -382,7 +381,7 @@ Verify that the multilingual documentation sources and generated artifacts are i
 py .python\generate_markdown.py --check
 ```
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.0.4.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.0.5.
 
 ******
 

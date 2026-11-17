@@ -320,6 +320,12 @@ native library: none (pure JVM, all ABIs)
 
 ******
 
+#### v1.0.5
+
+_2026/11/17_
+
+- `优化` 插件图标去掉彩色背景, 保留原有的 "拼" 字图案, 图案颜色跟随亮色与暗色主题
+
 #### v1.0.4
 
 _2026/11/04_
@@ -332,13 +338,6 @@ _2026/09/19_
 
 - `修复` AGP 9.1 构建时的 SDK XML v4 解析警告, 以及 JVM 单元测试误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)
 - `优化` compileSdk/targetSdk 升级至 37 (Android 17)
-
-#### v1.0.2
-
-_2026/09/13_
-
-- `修复` 插件版本日期受构建环境语言影响, 未统一使用英文格式的问题
-- `优化` 统一多语言资源, 明确插件激活契约并校验发布产物
 
 ##### 更多发行历史可参阅
 
@@ -382,7 +381,7 @@ py scripts\release\prepare_release.py
 py .python\generate_markdown.py --check
 ```
 
-构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 37, 当前版本 1.0.4.
+构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 37, 当前版本 1.0.5.
 
 ******
 

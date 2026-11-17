@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatorVersion": "1.3.0",
+  "generatorVersion": "1.4.0",
   "profile": "catalog",
   "repository": "AutoJs6-Plugin-Pinyin",
   "packages": [
@@ -9,8 +9,8 @@
   "launcher": false,
   "params": {
     "sources": {
-      "day": "14b98b012c77376206c6ccffc4651a067598923cb079caffcf4174d02e794da9",
-      "night": "d4546a2f9d4785b9e2f07fdf79e8cdf191a0866923a209ad0e4f019f46e8367e",
+      "day": "42d38a458fb9cc2d16f3b65521745940cb1d6c34faab2676032bdbc05b48c6ef",
+      "night": "42d38a458fb9cc2d16f3b65521745940cb1d6c34faab2676032bdbc05b48c6ef",
       "alphaMode": "alpha"
     },
     "geometry": {
@@ -20,7 +20,7 @@
       "offsetY": 0.0
     },
     "day": {
-      "mode": "original",
+      "mode": "mask",
       "foreground": "#272727",
       "brightness": 1.0,
       "contrast": 1.0,
@@ -29,7 +29,7 @@
       "invert": false
     },
     "night": {
-      "mode": "original",
+      "mode": "mask",
       "foreground": "#d8d8d8",
       "brightness": 1.0,
       "contrast": 1.0,
@@ -129,6 +129,8 @@
   },
   "assets": [
     "14b98b012c77376206c6ccffc4651a067598923cb079caffcf4174d02e794da9",
+    "42d38a458fb9cc2d16f3b65521745940cb1d6c34faab2676032bdbc05b48c6ef",
+    "d050f5cbb699629a1a26cbc2270e9d45926f1c8b008f2d76f8645e462709bb69",
     "d4546a2f9d4785b9e2f07fdf79e8cdf191a0866923a209ad0e4f019f46e8367e"
   ],
   "legacyGenerator": null,
@@ -137,7 +139,12 @@
     "night": "transparent"
   },
   "systemIcon": true,
-  "originalSources": {},
+  "originalSources": {
+    "42d38a458fb9cc2d16f3b65521745940cb1d6c34faab2676032bdbc05b48c6ef": {
+      "asset": "d050f5cbb699629a1a26cbc2270e9d45926f1c8b008f2d76f8645e462709bb69",
+      "filename": "pinyin-icon.svg"
+    }
+  },
   "systemIconMinSdk": 24,
   "systemIconObsolete": []
 }

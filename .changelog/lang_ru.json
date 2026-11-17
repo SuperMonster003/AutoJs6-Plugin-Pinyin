@@ -5,6 +5,12 @@
   "changelog_label_improvement": "Улучшение",
   "changelog_label_dependency": "Зависимость",
   "$data": {
+    "v1.0.5": {
+      "released_date": "2026/11/17",
+      "improvement": [
+        "У значка плагина убран цветной фон, прежнее изображение \"拼\" сохранено, а его цвет теперь зависит от светлой или тёмной темы"
+      ]
+    },
     "v1.0.4": {
       "released_date": "2026/11/04",
       "improvement": [

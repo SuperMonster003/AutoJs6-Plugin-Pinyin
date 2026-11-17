@@ -5,6 +5,12 @@
   "changelog_label_improvement": "تحسين",
   "changelog_label_dependency": "تبعية",
   "$data": {
+    "v1.0.5": {
+      "released_date": "2026/11/17",
+      "improvement": [
+        "أُزيلت الخلفية الملونة من أيقونة الملحق مع الإبقاء على رسم \"拼\" الأصلي, وأصبح لونه يتبع السمتين الفاتحة والداكنة"
+      ]
+    },
     "v1.0.4": {
       "released_date": "2026/11/04",
       "improvement": [
